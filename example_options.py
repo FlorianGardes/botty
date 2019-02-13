@@ -1,2 +1,4 @@
 Token = bot_token
-CommandPrefix = "!"
+CommandPrefix = '!'
+Description = 'Bot'
+Owner_Id = 'id'
