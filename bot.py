@@ -7,7 +7,6 @@ import math
 import re
 
 import discord
-
 from datetime import datetime
 from time import gmtime, strftime
 import math
@@ -43,5 +42,12 @@ async def hi(*args):
 @client.command()
 async def time(*args):
 	await client.say(" :timer: " + strftime("On est le %d-%m-%Y et il est %H:%M:%S"))
+
+@client.command()
+async def mm(*args):
+    if(args[0] == "coa"):
+        if(args [1] == "push"):
+            await client.say (" Push coa en [x/y]"+args[2]+"[/x/y]")
+
 
 client.run(Token)
