@@ -18,6 +18,8 @@ Copier le fichier example_options.py en option.py et modifier la variable token 
 
 ```
 !ping
-!hi
+!tuturu
 !time
+!mm
+!ally
 ```

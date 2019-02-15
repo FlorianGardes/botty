@@ -22,7 +22,7 @@ from os import environ
 from options import *
 
 # Here you can modify the bot's prefix and description and wether it sends help in direct messages or not.
-client = Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
+bot = Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
 
 # Fonctions utiles
 
@@ -31,67 +31,68 @@ def is_owner(ctx):
         return True
     return False
 
-def is_allowed(ctx):
-    if is_owner(ctx):
-        return True
-    else:
-        return False
-
 # Permet de vérifier le bon lancement du bot
-@client.event
+@bot.event
 async def on_ready():
-    print("Client connecté")
-    print("Username : {}".format(client.user.name))
-    print("ID : {}".format(client.user.id))
-    print("discord.py v{}".format(discord.__version__))
-    await client.change_presence(game=(discord.Game(name='{}help'.format(CommandPrefix))))
+    print('--------------------------------')
+    print('Bot connecté')
+    print('Username : {}'.format(bot.user.name))
+    print('ID : {}'.format(bot.user.id))
+    print('Python Lib v{}'.format(discord.__version__))
+    print('Nombre de serveur infectés:', str(len(bot.servers)))
+    print('Nombre de personnes visibles:',len(set(bot.get_all_members())))
+    print('--------------------------------')
+    await bot.change_presence(game=(discord.Game(name='{}help'.format(CommandPrefix))))
 
 # Message de bienvenue
-@client.event
+@bot.event
 async def on_member_join(member):
-    await client.send_message(member,"Bienvenue sur le serveur Ghosty {0.name}#{0.discriminator} ! :ghost: ".format(member))
-    channel = get(member.server.channels, name="bienvenue")
-    await client.send_message(channel,"Bienvenue à {0.name} ! :eggplant: ".format(member))
+    await bot.send_message(member,'Bienvenue sur le serveur Ghosty {0.name}#{0.discriminator} ! :ghost: '.format(member))
+    channel = get(member.server.channels, name='bienvenue')
+    await bot.send_message(channel,'Bienvenue à {0.name} ! :eggplant: '.format(member))
 
-@client.command()
+@bot.command()
 async def ping(*args):
-	await client.say(":ping_pong: Pong!")
+	await bot.say(':ping_pong: Pong!')
 
-@client.command()
-async def hi(*args):
-	await client.say("coucou o/")
+@bot.command()
+async def tuturu(*args):
+	await bot.say('\o/')
 
-@client.command()
+@bot.command()
 async def time(*args):
-	await client.say(" :timer: " + strftime("On est le %d-%m-%Y et il est %H:%M:%S"))
+	await bot.say(' :timer: ' + strftime('On est le %d-%m-%Y et il est %H:%M:%S'))
 
-@client.command()
+@bot.command()
 async def mm(*args):
-    if(args[0] == "coa"):
-        if(args [1] == "push"):
-            await client.say (" Push coa en [x/y]"+args[2]+"[/x/y]")
-'''
-@client.command()
-async def ally(*args):
-    if(args[0]) == "fhc" or (args[0]) == "FHC":
-        role = get(message.server.roles, name='FHC')
-        await client.add_roles(message.author, role)
-'''
-'''
-@client.command(pass_context=True)
-@client.check(is_owner)
-async def ban(ctx, user : discord.Member):
-    await client.ban(user)
-    await client.say("{0.name} a été banni !".format(user))
-'''
-'''
-@client.command(pass_context=True)
-@client.check(is_owner)
-async def ban(ctx, user: discord.Member):
-        if (message.author == message.server.owner):
-            await client.ban(user)
-            await client.say(f"{user.name} à été ban !")
-        else:
-            await client.send_message(message.channel, "Commande uniquement pour le créateur tout puissant")
-'''
-client.run(Token)
+    if(args[0] == 'coa'):
+        if(args [1] == 'push'):
+            await bot.say (' Push coa en [x/y]'+args[2]+'[/x/y]')
+
+@bot.command(pass_context = True)
+async def ally(ctx, *args):
+    msg = ' '.join(args)
+    auteur = ctx.message.author
+    if msg == 'fhc' or msg == 'FHC':
+        role = get(ctx.message.server.roles, name='FHC')
+        await bot.add_roles(auteur, role)
+    elif msg == 'G&V' or msg == 'g&v':
+        role = get(ctx.message.server.roles, name='G&V')
+        await bot.add_roles(auteur, role)
+    await bot.say('Role %s ajouté pour %s'%(role, auteur) )
+
+
+@bot.command(pass_context = True)
+@commands.check(is_owner)
+async def delcmd(ctx, *args):
+    msg = ' '.join(args)
+    await bot.delete_message(ctx.message)
+    await bot.say(msg)
+
+@bot.command(pass_context = True)
+async def test(ctx, *args):
+    msg = ' '.join(args)
+    await bot.say(ctx.message.content)
+    await bot.say(msg)
+
+bot.run(Token)
