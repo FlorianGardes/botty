@@ -72,30 +72,54 @@ async def mm(*args):
             embed = discord.Embed(description = "Push coa en [x/y] %s [x/y]"%args[2], color = 0x1f8b4c)
             await bot.say(embed = embed)
 
-# Ajoute un role à un membre
+# Créé un role
 @bot.command(pass_context = True)
-async def ally(ctx, *args):
+async def createrole(ctx, *args):
+    role = [roles.name.lower() for roles in ctx.message.author.roles]
+    if 'dev' not in role:
+        return await bot.say("**Désolé tu n'es pas autorisé à faire cette commande!**")
     msg = ' '.join(args)
     auteur = ctx.message.author
-    if msg == 'fhc' or msg == 'FHC':
-        role = get(ctx.message.server.roles, name='FHC')
-        await bot.add_roles(auteur, role)
-    elif msg == 'G&V' or msg == 'g&v':
-        role = get(ctx.message.server.roles, name='G&V')
-        await bot.add_roles(auteur, role)
-    await bot.say('Role %s ajouté pour %s'%(role, auteur) )
+    color = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
+    color = int(color, 16)
+    role = await bot.create_role(auteur.server, name=msg, colour=discord.Colour(color))
+    await bot.say('Role créé avec succes par %s'%auteur )
 
+# Renome et ajoute le role à partir d'un fichier
 @bot.command(pass_context = True)
-async def sign(*args):
-    wb =    xlrd.open_workbook('data/Map.xls')
+async def sign(ctx, *args):
+    auteur = ctx.message.author
+    prefix = ctx.message.author.name
+    msg = ' '.join(args)
+    wb = xlrd.open_workbook('data/Map.xls')
     sh = wb.sheet_by_name(u'Map')
     await bot.say ("Recherche en cours")
-    colonne1 = sh.col_values(1)
-    colonne2 = sh.col_values(3)
+    colonne1 = sh.col_values(0)
+    colonne2 = sh.col_values(1)
     for rownum in range(sh.nrows):
-            await bot.say(colonne1[rownum]+"/"+colonne2[rownum])
-            if(colonne1[rownum]==args):
-                await bot.say ("Pseudo trouvé")
+            #await bot.say(colonne1[rownum]+"/"+colonne2[rownum])
+            if(colonne1[rownum]==msg):
+                role_name = colonne2[rownum]
+                pseudo = colonne1[rownum]
+                role = [roles.name.lower() for roles in ctx.message.author.roles]
+                if (role_name.lower()) not in role:
+                    color = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
+                    color = int(color, 16)
+                    role = await bot.create_role(auteur.server, name=role_name, colour=discord.Colour(color))
+                    await bot.add_roles(auteur, role)
+                    pseudo = prefix + ' (' + pseudo +')'
+                    await bot.change_nickname(ctx.message.author, pseudo)
+                    embed = discord.Embed(description = "**%s** à été créé et ajouté à **%s**"%(role_name, prefix), color = 0xF00000)
+                    embed.set_footer(text="Good Game")
+                    await bot.say(embed = embed)
+                    return
+                role = get(ctx.message.server.roles, name=role_name)
+                await bot.add_roles(auteur, role)
+                pseudo = prefix + ' (' + pseudo +')'
+                await bot.change_nickname(ctx.message.author, pseudo)
+                embed = discord.Embed(description = "**%s** à été attribué et ajouté à **%s**"%(role, prefix), color = 0xF00000)
+                embed.set_footer(text="Good Game")
+                await bot.say(embed = embed)
                 return
     await bot.say("Pseudo introuvable")
 
@@ -104,7 +128,7 @@ async def sign(*args):
 async def kick(ctx, *, member : discord.Member = None):
     role = [roles.name.lower() for roles in ctx.message.author.roles]
 
-    if "admin" not in role:
+    if 'admin' not in role:
         return await bot.say("**Désolé tu n'es pas autorisé à faire cette commande!**")
     if not member:
         return await bot.say(ctx.message.author.mention + ", veuillez préciser le membre à kick")

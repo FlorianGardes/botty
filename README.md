@@ -21,5 +21,7 @@ Copier le fichier example_options.py en option.py et modifier la variable token 
 !tuturu
 !time
 !mm
-!ally
+!create_role
+!sign
+!kick
 ```
