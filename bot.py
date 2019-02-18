@@ -37,6 +37,12 @@ def is_channel(channel_id):
         return ctx.message.channel.id == channel_id
     return commands.check(predicate)
 
+def is_allow(ctx):
+    for allowed in Allow_Id:
+        if ctx.message.author.id == allowed:
+            return True
+    return False
+
 # Permet de vérifier le bon lancement du bot
 @bot.event
 async def on_ready():
@@ -270,6 +276,18 @@ async def delcmd(ctx, *args):
     msg = ' '.join(args)
     await bot.delete_message(ctx.message)
     await bot.say(msg)
+
+@bot.command(pass_context = True, hidden=True)
+@commands.check(is_allow)
+async def clear(ctx, lignes):
+    mgs = []
+    lignes = int(lignes)
+    async for x in bot.logs_from(ctx.message.channel, limit = lignes+1):
+        mgs.append(x)
+    await bot.delete_messages(mgs)
+    embed = discord.Embed(description = "**%s** message(s) supprimé(s) par **%s**"%(lignes, ctx.message.author), color = 0xF00000)
+    embed.set_footer(text="Clear")
+    await bot.say(embed = embed)
 
 @bot.command(pass_context = True, hidden=True)
 async def test(ctx, *args):

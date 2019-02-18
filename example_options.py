@@ -2,6 +2,7 @@ Token = 'bot_token'
 CommandPrefix = '!'
 Description = 'Bot'
 Owner_Id = 'id'
+Allow_Id = ['id','id']
 '''channels'''
 channel_inscription = 'id'
 test_bot = 'id'
