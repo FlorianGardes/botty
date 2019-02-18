@@ -59,11 +59,11 @@ async def on_ready():
 # Message de bienvenue
 @bot.event
 async def on_member_join(member):
-    #await bot.send_message(member,'Bienvenue sur le serveur Ghosty {0.name}#{0.discriminator} ! :ghost: '.format(member))
-    channel = get(member.server.channels, name='bienvenue')
-    await bot.send_message(channel,'Bienvenue à {0.name} ! :eggplant: '.format(member))
+    channel = get(member.server.channels, name='nouveau-venu')
+    await bot.send_message(channel,'{0.name}#{0.discriminator} à rejoins le server !'.format(member))
+    await bot.send_message(member,'Bienvenue sur le serveur !\nMerci de faire !sign pseudo_IG dans le salon inscription pour acceder aux autres services\n!help pour avoir les commandes disponibles'.format(member))
 
-@bot.command(pass_context=True, brief="Donne quelques informations sur le serveur")
+@bot.command(pass_context=True, brief="Give some information about this server discord")
 async def serverinfo(ctx):
     server = ctx.message.server
     online = len([m.status for m in server.members
@@ -74,15 +74,15 @@ async def serverinfo(ctx):
                             if x.type == discord.ChannelType.text])
     salons_vocaux = len(server.channels) - salons_textuels
     jours = (ctx.message.timestamp - server.created_at).days
-    creation = ("Depuis le {}. Il s'est écoulé {} jours !""".format(server.created_at.strftime("%d %b %Y"), jours))
+    creation = ("Since {}. It's happened {} days !""".format(server.created_at.strftime("%d %b %Y"), jours))
 
     data = discord.Embed(description=creation, colour=discord.Colour(value=0x206694))
     data.add_field(name="Region", value=str(server.region))
-    data.add_field(name="Utilisateurs en ligne", value="{}/{}".format(online, total_users))
-    data.add_field(name="Salons Textuels", value=salons_textuels)
-    data.add_field(name="Salon Vocaux", value=salons_vocaux)
+    data.add_field(name="People online", value="{}/{}".format(online, total_users))
+    data.add_field(name="Writing Room", value=salons_textuels)
+    data.add_field(name="Vocal Room", value=salons_vocaux)
     data.add_field(name="Roles", value=len(server.roles))
-    data.add_field(name="Propriétaire", value=str(server.owner))
+    data.add_field(name="Owner", value=str(server.owner))
     data.set_footer(text="Server ID: " + server.id)
 
     if server.icon_url:
@@ -116,96 +116,101 @@ async def sign(ctx, *args):
                     await bot.add_roles(auteur, role)
                     pseudo = prefix + ' (' + pseudo +')'
                     await bot.change_nickname(ctx.message.author, pseudo)
-                    embed = discord.Embed(description = "**%s** à été créé et ajouté à **%s**"%(role_name, prefix), color = 0xF00000)
-                    if(colonne3[rownum]==1):
-                        embed.set_footer(text=":romain:")
-                    elif(colonne3[rownum]==2):
-                        embed.set_footer(text=":germain:")
-                    else :
-                        embed.set_footer(text=":gaulois:")
+                    embed = discord.Embed(description = "**%s** has been created and added to **%s**"%(role_name, prefix), color = 0xF00000)
                     await bot.say(embed = embed)
                     return
                 role = get(ctx.message.server.roles, name=role_name)
                 await bot.add_roles(auteur, role)
                 pseudo = prefix + ' (' + pseudo +')'
                 await bot.change_nickname(ctx.message.author, pseudo)
-                embed = discord.Embed(description = "**%s** à été attribué et ajouté à **%s**"%(role, prefix), color = 0xF00000)
-                if(colonne3[rownum]==1):
-                    embed.set_footer(text=":romain:")
-                elif(colonne3[rownum]==2):
-                    embed.set_footer(text=":germain:")
-                else :
-                    embed.set_footer(text=":gaulois:")
+                embed = discord.Embed(description = "**%s** has been assigned and added to **%s**"%(role, prefix), color = 0xF00000)
                 await bot.say(embed = embed)
                 return
-    await bot.say("Pseudo introuvable")
+    await bot.say("Player doesn't exist, try again")
 
-@bot.command(brief="Demande de push en [x/y]")
-async def mm(*args):
+@bot.command(pass_context = True,brief="Mass message for [x/y]",hidden=True)
+async def mm(ctx,*args):
+    auteur = ctx.message.author
+    prefix = ctx.message.author.name
     channel = discord.Object(id=message_alliance_ig)#message-alliance-ig
     channel_test = discord.Object(id=test_bot)#test-bot
     channel_message = discord.Object(id=message_alliance)#message-alliance
     if(args[0] == 'help'):
-        msg ="Veuillez spécifiez si c'est un message def ou push comme suit :\n!mm def x y heure troupe_total nourrir(oui ou non)\n!mm push x y heure quantité_par_joueurs"
-        embed=discord.Embed(title="Help message alliance", color=0x1ea91e)
-        embed.add_field(name="Commande :" , value=msg)
+        msg ="For prepare mm (def, push or feeding), you need args like :\n!mm def x y hour quantit_of_troops feed(yes or np)\n!mm push x y hour(hh:mm:ss) quantity/player\n!mm crops x y"
+        embed=discord.Embed(title="Help mass message", color=0x1ea91e)
+        embed.add_field(name="Command :" , value=msg)
         embed.set_footer(text="finals.travian.com")
-        embed.set_author(name="Fricen")
+        embed.set_author(name=prefix)
         await bot.send_message(channel_test,embed=embed)
         return
     elif(args[0] =='def'):
-        if(args[5]=='oui'):
-            msg ="Bonjour à tous,\n\nBesoin de def en [x/y]"+args[1]+"/"+args[2]+"[/x/y] pour "+args[3]+" heure, heure serveur\nQuantité demandées : "+args[4]+"k\nPensez à nourrir\n\nMerci d'avance,\nFricen"
-            embed=discord.Embed(title="Demande de def", color=0x1ea91e)
-            embed.set_author(name="Fricen")
+        if(args[5]=='yes'):
+            msg ="Hello,\n\nNeed def for [x/y]"+args[1]+"/"+args[2]+"[/x/y] pour "+args[3]+" , server time\nQuantity needed : "+args[4]+"k\nDon't forget to feed\n\nThanks in advance,\n"+prefix
+            embed=discord.Embed(title="Asking def", color=0x1ea91e)
+            embed.set_author(name=prefix)
             embed.set_footer(text="finals.travian.com")
-            embed.add_field(name="Coord : ", value=msg)
+            embed.add_field(name="Message : ", value=msg)
 
 
             village = "https://finals.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
-            embed_discord=discord.Embed(title="Demande de def", color=0x1ea91e)
-            embed_discord.set_author(name="Fricen")
-            embed_discord.set_footer(text="Merci")
-            embed_discord.add_field(name="Village à défendre", value = village)
-            embed_discord.add_field(name="Heure d'impact",value = args[3])
-            embed_discord.add_field(name="Quantité demandée en k", value = args[4])
-            embed_discord.add_field(name = "Besoin de nourrir ? ", value = "Oui")
+            embed_discord=discord.Embed(title="Asking def wall", color=0x1ea91e)
+            embed_discord.set_author(name=prefix)
+            embed_discord.set_footer(text="Thank you")
+            embed_discord.add_field(name="Village to def", value = village)
+            embed_discord.add_field(name="Time set",value = args[3])
+            embed_discord.add_field(name="Troops needed ( in k )", value = args[4])
+            embed_discord.add_field(name = "Need to def ?  ", value = "Yes")
             await bot.send_message(channel,embed=embed)
             await bot.send_message(channel_message,embed=embed_discord)
 
         else :
-            msg = "Bonjour à tous,\n\nBesoin de def en [x/y]"+args[1]+"/"+args[2]+"[/x/y] pour "+args[3]+"heure, heure serveur\nQuantité demandées : "+args[4]+"k\nPas besoin de nourrir\n\nMerci d'avance,\nFricen"
-            embed=discord.Embed(title="Demande de def", color=0x1ea91e)
-            embed.set_author(name="Fricen")
+            msg = "Hello warriors and amazons,\n\nNeed def in [x/y]"+args[1]+"/"+args[2]+"[/x/y] for "+args[3]+", server time\nTroops needed : "+args[4]+"k\nNo need to feed\n\nThank in advance,\n"+prefix
+            embed=discord.Embed(title="Asking def wall", color=0x1ea91e)
+            embed.set_author(name=prefix)
             embed.set_footer(text="finals.travian.com")
-            embed.add_field(name="Coord : ", value=msg)
+            embed.add_field(name="Message : ", value=msg)
 
 
 
             village = "https://finals.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
-            embed_discord=discord.Embed(title="Demande de def", color=0x1ea91e)
-            embed_discord.set_author(name="Fricen")
-            embed_discord.set_footer(text="Merci")
-            embed_discord.add_field(name="Village à défendre", value = village)
-            embed_discord.add_field(name="Heure d'impact",value = args[3])
-            embed_discord.add_field(name="Quantité demandée en k", value = args[4])
-            embed_discord.add_field(name = "Besoin de nourrir ? ", value = "Non")
+            embed_discord=discord.Embed(title="Asking Def Wall", color=0x1ea91e)
+            embed_discord.set_author(name=prefix)
+            embed_discord.set_footer(text="Thank you")
+            embed_discord.add_field(name="Village to def", value = village)
+            embed_discord.add_field(name="Time set",value = args[3])
+            embed_discord.add_field(name="Troops needed ( in k ) ", value = args[4])
+            embed_discord.add_field(name = "Need to feed ? ", value = "No")
             await bot.send_message(channel,embed=embed)
             await bot.send_message(channel_message,embed=embed_discord)
     elif(args[0]=='push'):
-        msg = "Bonjour à tous,\n\nPush en [x/y]"+args[1]+"/"+args[2]+"[/x/y] jusqu'à "+args[3]+" heure, heure serveur\n"+args[4]+"k par joueurs\n\nMerci d'avance,\nFricen"
-        embed=discord.Embed(title="Demande de Push", color=0x1ea91e)
-        embed.set_author(name="Fricen")
+        msg = "Hello everyone,\n\nPush in [x/y]"+args[1]+"/"+args[2]+"[/x/y] until "+args[3]+" , server time\n"+args[4]+"k/player asked\n\nThank you in advance,\n"+prefix
+        embed=discord.Embed(title="Push", color=0x1ea91e)
+        embed.set_author(name=prefix)
         embed.set_footer(text="finals.travian.com")
-        embed.add_field(name="Coord : ", value=msg)
+        embed.add_field(name="Message : ", value=msg)
 
         village = "https://finals.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
-        embed_discord=discord.Embed(title="Demande de def", color=0x1ea91e)
-        embed_discord.set_author(name="Fricen")
-        embed_discord.set_footer(text="Merci")
-        embed_discord.add_field(name="Village à push", value = village)
-        embed_discord.add_field(name="Heure",value = args[3])
-        embed_discord.add_field(name="Quantité demandée en k", value = args[4])
+        embed_discord=discord.Embed(title="Push", color=0x1ea91e)
+        embed_discord.set_author(name=prefix)
+        embed_discord.set_footer(text="Thank you")
+        embed_discord.add_field(name="Village to push", value = village)
+        embed_discord.add_field(name="Hour",value = args[3])
+        embed_discord.add_field(name="Quantity asked ( in k )", value = args[4])
+        await bot.send_message(channel,embed=embed)
+        await bot.send_message(channel_message,embed=embed_discord)
+
+    elif(args[0]=='crops'):
+        msg = "Hello everyone,\n\nDon't forget to feed in [x/y]"+args[1]+"/"+args[2]+"[/x/y],\nThank you in advance\n"+prefix
+        embed=discord.Embed(title="Crops", color=0x1ea91e)
+        embed.set_author(name=prefix)
+        embed.set_footer(text="finals.travian.com")
+        embed.add_field(name="Need crops : ", value=msg)
+
+        village = "https://finals.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
+        embed_discord=discord.Embed(title="Push", color=0x1ea91e)
+        embed_discord.set_author(name=prefix)
+        embed_discord.set_footer(text="Thank you")
+        embed_discord.add_field(name="Village to feed", value = village)
         await bot.send_message(channel,embed=embed)
         await bot.send_message(channel_message,embed=embed_discord)
 
@@ -241,7 +246,16 @@ async def info(ctx ,*args):
             embed.add_field(name = colonne2[rownum], value = alliance)
             await bot.say(embed=embed)
             return
-    await bot.say("Pseudo introuvable")
+    await bot.say("Player doesn't exist")
+
+@bot.command(pass_context = True, brief ="Link")
+async def link():
+    embed = discord.Embed(title="Link", color=0xff8c00)
+    embed.add_field(name ="Server",value ="https://finals.travian.com")
+    embed.add_field(name ="Getter",value ="https://www.gettertools.com/finals.travian.com.9/")
+    embed.add_field(name ="TW WW",value ="http://www.travianwonder.com/uollasww")
+    embed.add_field(name ="Kirilloid",value ="http://travian.kirilloid.ru/")
+    await bot.say(embed=embed)
 
 @bot.command()
 async def ping(*args):
@@ -251,9 +265,9 @@ async def ping(*args):
 async def tuturu(*args):
 	await bot.say('\o/')
 
-@bot.command(brief="Affiche la date et l'heure")
+@bot.command(brief="Give date & hour")
 async def time(*args):
-	await bot.say(' :timer: ' + strftime('On est le %d-%m-%Y et il est %H:%M:%S'))
+	await bot.say(' :timer: ' + strftime('We are the %d-%m-%Y and it is %H:%M:%S'))
 
 # Kick un membre du serveur
 @bot.command(pass_context = True, hidden=True)
