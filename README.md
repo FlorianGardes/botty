@@ -1,8 +1,8 @@
 # Botty
 
-**Un petit bot discret**
+**Un petit bot pour Travian**
 
-Ce bot s'utilise avec le préfixe "!"
+Ce bot à été créé pour une utilisation en lien avec Travian
 
 ---
 
@@ -12,16 +12,24 @@ Ce bot s'utilise avec le préfixe "!"
 ---
 ## Préparation
 
-Copier le fichier example_options.py en option.py et modifier la variable token par le vrai token de son bot
+Copier le fichier example_options.py en option.py et modifier les variables pour son propre serveur (Token, Owner_Id, Channels ...)
 
-### Commandes
-
+## Commandes
 ```
-!ping
-!tuturu
-!time
-!mm
-!create_role
+!serverinfo
+```
+Donne quelques informations sur le serveur où se situe le bot
+```
 !sign
-!kick
 ```
+Permet de s'inscrire sur le serveur grâce à la commande !sign < pseudo >  
+La commande vérifie si le pseudo existe vraiment et renomme l'utilisateur si c'est le cas  
+De plus, la commande check l'alliance du joueur et l'associe au rôle de son alliance pour avoir accès aux salons de son alliance.
+```
+!mm
+```
+compléter ici
+```
+!info
+```
+Permet d'afficher L’URL relative aux informations sur un joueur et son alliance  avec !info < joueur >

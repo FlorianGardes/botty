@@ -32,6 +32,11 @@ def is_owner(ctx):
         return True
     return False
 
+def is_channel(channel_id):
+    def predicate(ctx):
+        return ctx.message.channel.id == channel_id
+    return commands.check(predicate)
+
 # Permet de vérifier le bon lancement du bot
 @bot.event
 async def on_ready():
@@ -52,24 +57,88 @@ async def on_member_join(member):
     channel = get(member.server.channels, name='bienvenue')
     await bot.send_message(channel,'Bienvenue à {0.name} ! :eggplant: '.format(member))
 
-@bot.command()
-async def ping(*args):
-	await bot.say(':ping_pong: Pong!')
+@bot.command(pass_context=True, brief="Donne quelques informations sur le serveur")
+async def serverinfo(ctx):
+    server = ctx.message.server
+    online = len([m.status for m in server.members
+                    if m.status == discord.Status.online or
+                    m.status == discord.Status.idle])
+    total_users = len(server.members)
+    salons_textuels = len([x for x in server.channels
+                            if x.type == discord.ChannelType.text])
+    salons_vocaux = len(server.channels) - salons_textuels
+    jours = (ctx.message.timestamp - server.created_at).days
+    creation = ("Depuis le {}. Il s'est écoulé {} jours !""".format(server.created_at.strftime("%d %b %Y"), jours))
 
-@bot.command()
-async def tuturu(*args):
-	await bot.say('\o/')
+    data = discord.Embed(description=creation, colour=discord.Colour(value=0x206694))
+    data.add_field(name="Region", value=str(server.region))
+    data.add_field(name="Utilisateurs en ligne", value="{}/{}".format(online, total_users))
+    data.add_field(name="Salons Textuels", value=salons_textuels)
+    data.add_field(name="Salon Vocaux", value=salons_vocaux)
+    data.add_field(name="Roles", value=len(server.roles))
+    data.add_field(name="Propriétaire", value=str(server.owner))
+    data.set_footer(text="Server ID: " + server.id)
 
-@bot.command()
-async def time(*args):
-	await bot.say(' :timer: ' + strftime('On est le %d-%m-%Y et il est %H:%M:%S'))
+    if server.icon_url:
+        data.set_author(name=server.name, url=server.icon_url)
+        data.set_thumbnail(url=server.icon_url)
+    else:
+        data.set_author(name=server.name)
 
-# Demande de push en [x/y]
-@bot.command()
+    await bot.say(embed=data)
+
+@bot.command(pass_context = True, brief="Permet de s'inscrire", description="Renome et ajoute le role à partir d'un fichier")
+@is_channel(channel_inscription)
+async def sign(ctx, *args):
+    auteur = ctx.message.author
+    prefix = ctx.message.author.name
+    msg = ' '.join(args)
+    wb = xlrd.open_workbook('data/Map_complet.xls')
+    sh = wb.sheet_by_name(u'Map_Complet')
+    colonne1 = sh.col_values(2)
+    colonne2 = sh.col_values(4)
+    colonne3 = sh.col_values(0)
+    for rownum in range(sh.nrows):
+            if(colonne1[rownum]==msg):
+                role_name = colonne2[rownum]
+                pseudo = colonne1[rownum]
+                role = [roles.name.lower() for roles in ctx.message.author.roles]
+                if (role_name.lower()) not in role:
+                    color = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
+                    color = int(color, 16)
+                    role = await bot.create_role(auteur.server, name=role_name, colour=discord.Colour(color))
+                    await bot.add_roles(auteur, role)
+                    pseudo = prefix + ' (' + pseudo +')'
+                    await bot.change_nickname(ctx.message.author, pseudo)
+                    embed = discord.Embed(description = "**%s** à été créé et ajouté à **%s**"%(role_name, prefix), color = 0xF00000)
+                    if(colonne3[rownum]==1):
+                        embed.set_footer(text=":romain:")
+                    elif(colonne3[rownum]==2):
+                        embed.set_footer(text=":germain:")
+                    else :
+                        embed.set_footer(text=":gaulois:")
+                    await bot.say(embed = embed)
+                    return
+                role = get(ctx.message.server.roles, name=role_name)
+                await bot.add_roles(auteur, role)
+                pseudo = prefix + ' (' + pseudo +')'
+                await bot.change_nickname(ctx.message.author, pseudo)
+                embed = discord.Embed(description = "**%s** à été attribué et ajouté à **%s**"%(role, prefix), color = 0xF00000)
+                if(colonne3[rownum]==1):
+                    embed.set_footer(text=":romain:")
+                elif(colonne3[rownum]==2):
+                    embed.set_footer(text=":germain:")
+                else :
+                    embed.set_footer(text=":gaulois:")
+                await bot.say(embed = embed)
+                return
+    await bot.say("Pseudo introuvable")
+
+@bot.command(brief="Demande de push en [x/y]")
 async def mm(*args):
-    channel = discord.Object(id='546765589818114108')
-    channel_test = discord.Object(id='541923416832475136')
-    channel_message = discord.Object(id='373549029575098369')
+    channel = discord.Object(id=message_alliance_ig)#message-alliance-ig
+    channel_test = discord.Object(id=test_bot)#test-bot
+    channel_message = discord.Object(id=message_alliance)#message-alliance
     if(args[0] == 'help'):
         msg ="Veuillez spécifiez si c'est un message def ou push comme suit :\n!mm def x y heure troupe_total nourrir(oui ou non)\n!mm push x y heure quantité_par_joueurs"
         embed=discord.Embed(title="Help message alliance", color=0x1ea91e)
@@ -134,8 +203,7 @@ async def mm(*args):
         await bot.send_message(channel,embed=embed)
         await bot.send_message(channel_message,embed=embed_discord)
 
-# Créé un role
-@bot.command(pass_context = True)
+@bot.command(pass_context = True, hidden=True,brief="Créé un role")
 async def createrole(ctx, *args):
     role = [roles.name.lower() for roles in ctx.message.author.roles]
     if 'dev' not in role:
@@ -147,56 +215,7 @@ async def createrole(ctx, *args):
     role = await bot.create_role(auteur.server, name=msg, colour=discord.Colour(color))
     await bot.say('Role créé avec succes par %s'%auteur )
 
-# Renome et ajoute le role à partir d'un fichier
-@bot.command(pass_context = True)
-async def sign(ctx, *args):
-    auteur = ctx.message.author
-    prefix = ctx.message.author.name
-    msg = ' '.join(args)
-    wb = xlrd.open_workbook('data/Map_complet.xls')
-    sh = wb.sheet_by_name(u'Map_Complet')
-    colonne1 = sh.col_values(2)
-    colonne2 = sh.col_values(4)
-    colonne3 = sh.col_values(0)
-    for rownum in range(sh.nrows):
-            if(colonne1[rownum]==msg):
-                role_name = colonne2[rownum]
-                pseudo = colonne1[rownum]
-                role = [roles.name.lower() for roles in ctx.message.author.roles]
-                if (role_name.lower()) not in role:
-                    color = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
-                    color = int(color, 16)
-                    role = await bot.create_role(auteur.server, name=role_name, colour=discord.Colour(color))
-                    await bot.add_roles(auteur, role)
-                    pseudo = prefix + ' (' + pseudo +')'
-                    await bot.change_nickname(ctx.message.author, pseudo)
-                    embed = discord.Embed(description = "**%s** à été créé et ajouté à **%s**"%(role_name, prefix), color = 0xF00000)
-                    if(colonne3[rownum]==1):
-                        embed.set_footer(text=":romain:")
-                    elif(colonne3[rownum]==2):
-                        embed.set_footer(text=":germain:")
-                    else :
-                        embed.set_footer(text=":gaulois:")
-                    await bot.say(embed = embed)
-                    return
-                role = get(ctx.message.server.roles, name=role_name)
-                await bot.add_roles(auteur, role)
-                pseudo = prefix + ' (' + pseudo +')'
-                await bot.change_nickname(ctx.message.author, pseudo)
-                embed = discord.Embed(description = "**%s** à été attribué et ajouté à **%s**"%(role, prefix), color = 0xF00000)
-                if(colonne3[rownum]==1):
-                    embed.set_footer(text=":romain:")
-                elif(colonne3[rownum]==2):
-                    embed.set_footer(text=":germain:")
-                else :
-                    embed.set_footer(text=":gaulois:")
-                await bot.say(embed = embed)
-                return
-    await bot.say("Pseudo introuvable")
-
-
-# Info player
-@bot.command(pass_context = True)
+@bot.command(pass_context = True,brief="Info player")
 async def info(ctx ,*args):
     auteur = ctx.message.author
     prefix = ctx.message.author.name
@@ -218,9 +237,20 @@ async def info(ctx ,*args):
             return
     await bot.say("Pseudo introuvable")
 
+@bot.command()
+async def ping(*args):
+	await bot.say(':ping_pong: Pong!')
+
+@bot.command()
+async def tuturu(*args):
+	await bot.say('\o/')
+
+@bot.command(brief="Affiche la date et l'heure")
+async def time(*args):
+	await bot.say(' :timer: ' + strftime('On est le %d-%m-%Y et il est %H:%M:%S'))
 
 # Kick un membre du serveur
-@bot.command(pass_context = True)
+@bot.command(pass_context = True, hidden=True)
 async def kick(ctx, *, member : discord.Member = None):
     role = [roles.name.lower() for roles in ctx.message.author.roles]
 
@@ -233,49 +263,20 @@ async def kick(ctx, *, member : discord.Member = None):
     await bot.kick(member)
     await bot.say(embed = embed)
 
-# Donne quelques informations sur le serveur
-@bot.command(pass_context=True)
-async def serverinfo(ctx):
-    server = ctx.message.server
-    online = len([m.status for m in server.members
-                    if m.status == discord.Status.online or
-                    m.status == discord.Status.idle])
-    total_users = len(server.members)
-    salons_textuels = len([x for x in server.channels
-                            if x.type == discord.ChannelType.text])
-    salons_vocaux = len(server.channels) - salons_textuels
-    jours = (ctx.message.timestamp - server.created_at).days
-    creation = ("Depuis le {}. Il s'est écoulé {} jours !""".format(server.created_at.strftime("%d %b %Y"), jours))
-
-    data = discord.Embed(description=creation, colour=discord.Colour(value=0x206694))
-    data.add_field(name="Region", value=str(server.region))
-    data.add_field(name="Utilisateurs en ligne", value="{}/{}".format(online, total_users))
-    data.add_field(name="Salons Textuels", value=salons_textuels)
-    data.add_field(name="Salon Vocaux", value=salons_vocaux)
-    data.add_field(name="Roles", value=len(server.roles))
-    data.add_field(name="Propriétaire", value=str(server.owner))
-    data.set_footer(text="Server ID: " + server.id)
-
-    if server.icon_url:
-        data.set_author(name=server.name, url=server.icon_url)
-        data.set_thumbnail(url=server.icon_url)
-    else:
-        data.set_author(name=server.name)
-
-    await bot.say(embed=data)
-
 # Supprime le message pour ne laisser que la commande
-@bot.command(pass_context = True)
+@bot.command(pass_context = True, hidden=True)
 @commands.check(is_owner)
 async def delcmd(ctx, *args):
     msg = ' '.join(args)
     await bot.delete_message(ctx.message)
     await bot.say(msg)
 
-@bot.command(pass_context = True)
+@bot.command(pass_context = True, hidden=True)
 async def test(ctx, *args):
-    msg = ' '.join(args)
+    #msg = ' '.join(args)
     await bot.say(ctx.message.content)
-    await bot.say(msg)
+    await bot.say(args[0])
+    await bot.say(args[1])
+    await bot.say(args[2])
 
 bot.run(Token)
