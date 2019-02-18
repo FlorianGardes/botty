@@ -4,6 +4,7 @@ Description = 'Bot'
 Owner_Id = 'id'
 Allow_Id = ['id','id']
 '''channels'''
+channel_bienvenue = 'id'
 channel_inscription = 'id'
 test_bot = 'id'
 message_alliance = 'id'

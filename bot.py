@@ -63,7 +63,7 @@ async def on_member_join(member):
     channel = get(member.server.channels, name='bienvenue')
     await bot.send_message(channel,'Bienvenue à {0.name} ! :eggplant: '.format(member))
 
-@bot.command(pass_context=True, brief="Donne quelques informations sur le serveur")
+@bot.command(pass_context=True, brief="Donne quelques informations sur le serveur", aliases=['servinfo'])
 async def serverinfo(ctx):
     server = ctx.message.server
     online = len([m.status for m in server.members
@@ -74,15 +74,15 @@ async def serverinfo(ctx):
                             if x.type == discord.ChannelType.text])
     salons_vocaux = len(server.channels) - salons_textuels
     jours = (ctx.message.timestamp - server.created_at).days
-    creation = ("Depuis le {}. Il s'est écoulé {} jours !""".format(server.created_at.strftime("%d %b %Y"), jours))
+    creation = ("Since {}. That's over {} days ago !""".format(server.created_at.strftime("%d %b %Y"), jours))
 
     data = discord.Embed(description=creation, colour=discord.Colour(value=0x206694))
     data.add_field(name="Region", value=str(server.region))
-    data.add_field(name="Utilisateurs en ligne", value="{}/{}".format(online, total_users))
-    data.add_field(name="Salons Textuels", value=salons_textuels)
-    data.add_field(name="Salon Vocaux", value=salons_vocaux)
+    data.add_field(name="Users Online", value="{}/{}".format(online, total_users))
+    data.add_field(name="Text Channels", value=salons_textuels)
+    data.add_field(name="Voice Channels", value=salons_vocaux)
     data.add_field(name="Roles", value=len(server.roles))
-    data.add_field(name="Propriétaire", value=str(server.owner))
+    data.add_field(name="Owner", value=str(server.owner))
     data.set_footer(text="Server ID: " + server.id)
 
     if server.icon_url:
@@ -221,7 +221,7 @@ async def createrole(ctx, *args):
     role = await bot.create_role(auteur.server, name=msg, colour=discord.Colour(color))
     await bot.say('Role créé avec succes par %s'%auteur )
 
-@bot.command(pass_context = True,brief="Info player")
+@bot.command(pass_context = True, brief="Info player")
 async def info(ctx ,*args):
     auteur = ctx.message.author
     prefix = ctx.message.author.name
@@ -242,6 +242,20 @@ async def info(ctx ,*args):
             await bot.say(embed=embed)
             return
     await bot.say("Pseudo introuvable")
+
+@bot.command(pass_context=True, brief="Sent an invitation in pm of the server", aliases=['inv'])
+async def invite(ctx):
+    channel = discord.Object(id=channel_bienvenue)
+    auteur = ctx.message.author
+    server = ctx.message.server
+    link = await bot.create_invite(destination = channel, temporary = False, max_uses = 1)
+    embedmp = discord.Embed(color=0xf41af4)
+    embedmp.add_field(name="Discord invitation link:", value=link)
+    embedmp.set_footer(text="%s invited link"%server)
+    embed = discord.Embed(description ="Invitation sent in Private Message to **%s**"%auteur, color=0xf41af4)
+    await bot.delete_message(ctx.message)
+    await bot.send_message(ctx.message.channel, embed=embed)
+    await bot.send_message(auteur, embed=embedmp)
 
 @bot.command()
 async def ping(*args):
@@ -291,10 +305,9 @@ async def clear(ctx, lignes):
 
 @bot.command(pass_context = True, hidden=True)
 async def test(ctx, *args):
-    #msg = ' '.join(args)
-    await bot.say(ctx.message.content)
-    await bot.say(args[0])
-    await bot.say(args[1])
-    await bot.say(args[2])
+    embed = discord.Embed(description = "test", color = 0xF00000)
+    author = ctx.message.author.name
+    embed.set_author(name=author)
+    await bot.say(embed = embed)
 
 bot.run(Token)
