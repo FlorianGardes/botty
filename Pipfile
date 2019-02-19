@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pip = "==9.0.3"
+"discord.py" = "==0.16.12"
+"dj-database-url" = "*"
+gunicorn = "*"
+psycopg2 = "==2.7.3.2"
+whitenoise = "*"
+opuslib = "*"
+youtube_dl = "*"
+ffmpy = "==0.2.2"
+aiohttp = "==2.3.9"
+requests = "==2.18.4"
+selenium = "*"
+pynacl = "*"
+pytz = "*"
+beautifulsoup4 = "==4.6.0"
+xlrd = "*"
+requests = "*"
+
+[requires]
+python_version = "3.6"

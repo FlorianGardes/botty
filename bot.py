@@ -5,6 +5,7 @@ import random
 import asyncio
 import math
 import re
+import requests
 import xlrd
 
 import discord
