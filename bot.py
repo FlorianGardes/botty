@@ -107,8 +107,10 @@ async def sign(ctx, *args):
             if(colonne1[rownum]==msg):
                 role_name = colonne2[rownum]
                 pseudo = colonne1[rownum]
-                role = [roles.name.lower() for roles in ctx.message.author.roles]
-                if (role_name.lower()) not in role:
+                #role = [roles.name.lower() for roles in ctx.message.author.roles]
+                role = discord.utils.find(lambda r:r.role.name == role_name, ctx.message.author.roles)
+                #if (role_name.lower()) not in role:
+                if role == None:
                     color = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
                     color = int(color, 16)
                     role = await bot.create_role(auteur.server, name=role_name, colour=discord.Colour(color))
