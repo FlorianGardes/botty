@@ -1,4 +1,5 @@
 import discord
+import asyncio
 from discord.ext import commands
 from options import *
 
@@ -7,7 +8,7 @@ def is_channel(channel_id):
         return ctx.message.channel.id == channel_id
     return commands.check(predicate)
 
-class travian:
+class travian():
     def __init__(self, bot):
         self.bot = bot
 

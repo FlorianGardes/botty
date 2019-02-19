@@ -106,8 +106,9 @@ async def createrole(ctx, *args):
     role = await bot.create_role(auteur.server, name=msg, colour=discord.Colour(color))
     await bot.say('Role créé avec succes par %s'%auteur )
 
-@bot.command(pass_context=True, brief="Sent an invitation in pm of the server", aliases=['inv'])
+@bot.command(pass_context=True, aliases=['inv'], description="Sent invitation")
 async def invite(ctx):
+    """Sent an invitation in pm of the server"""
     channel = discord.Object(id=channel_bienvenue)
     auteur = ctx.message.author
     server = ctx.message.server
