@@ -1,6 +1,6 @@
 from os import environ
 
-Token = environ.get('Token_Fricen')
+Token_Fricen = environ.get('Token_Fricen')
 CommandPrefix = '!'
 Description = 'Super-Fricen'
 Owner_Id = '139869001365979136'
