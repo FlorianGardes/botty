@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pip = "==9.0.3"
 "discord.py" = "==0.16.12"
 "dj-database-url" = "*"
 gunicorn = "*"
@@ -20,7 +19,6 @@ pynacl = "*"
 pytz = "*"
 beautifulsoup4 = "==4.6.0"
 xlrd = "*"
-requests = "*"
 
 [requires]
 python_version = "3.6"
