@@ -20,7 +20,7 @@ from discord.ext.commands import Bot
 from discord.ext import commands
 from os import environ
 
-from options import *
+from options_ghosty import *
 
 # Here you can modify the bot's prefix and description and wether it sends help in direct messages or not.
 bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
