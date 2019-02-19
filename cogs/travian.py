@@ -1,7 +1,7 @@
 import discord
 import asyncio
 from discord.ext import commands
-from options import *
+from options_ghosty import *
 
 def is_channel(channel_id):
     def predicate(ctx):
