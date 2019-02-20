@@ -66,4 +66,4 @@ async def test(ctx, *args):
     embed.set_author(name=author)
     await bot.say(embed = embed)
 
-bot.run(Token)
+bot.run(Token_Fricen)
