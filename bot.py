@@ -60,7 +60,10 @@ async def on_ready():
 async def on_member_join(member):
     channel = get(member.server.channels, name='nouveau-venu')
     await bot.send_message(channel,'{0.name} à rejoins le server !'.format(member))
-    await bot.send_message(member,'Bienvenue sur le serveur !\nMerci de faire !sign pseudo_IG dans le salon inscription pour acceder aux autres services\n!help pour avoir les commandes disponibles'.format(member))
+    embed=discord.Embed(title="Welcome", color=0x1ea91e)
+    embed.add_field(name="Welcome on G&V server", value = "First, go on #sign-in and type `!sign <pseudo>` with your IG pseudos\nGo in #command for more details on the commands available")
+    await bot.say(embed=data)
+    await bot.send_message(member,'Bienvenue sur le serveur !\n!help pour avoir les commandes disponibles'.format(member))
 
 @bot.command(pass_context=True, brief="Give some information about this server discord")
 async def serverinfo(ctx):
@@ -215,8 +218,8 @@ async def mm(ctx,*args):
 
 @bot.command(pass_context = True, hidden=True,brief="Créé un role")
 async def createrole(ctx, *args):
-    role = [roles.name.lower() for roles in ctx.message.author.roles]
-    if 'dev' not in role:
+    role = [roles.name.lower() for roles in ctx.message.server.roles]
+    if 'Admin' not in role:
         return await bot.say("**Désolé tu n'es pas autorisé à faire cette commande!**")
     msg = ' '.join(args)
     auteur = ctx.message.author
