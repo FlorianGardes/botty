@@ -59,7 +59,7 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
     channel = get(member.server.channels, name='nouveau-venu')
-    await bot.send_message(channel,'{0.name}#{0.discriminator} à rejoins le server !'.format(member))
+    await bot.send_message(channel,'{0.name} à rejoins le server !'.format(member))
     await bot.send_message(member,'Bienvenue sur le serveur !\nMerci de faire !sign pseudo_IG dans le salon inscription pour acceder aux autres services\n!help pour avoir les commandes disponibles'.format(member))
 
 @bot.command(pass_context=True, brief="Give some information about this server discord")
@@ -135,7 +135,7 @@ async def mm(ctx,*args):
     channel_test = discord.Object(id=test_bot)#test-bot
     channel_message = discord.Object(id=message_alliance)#message-alliance
     if(args[0] == 'help'):
-        msg ="For prepare mm (def, push or feeding), you need args like :\n!mm def x y hour quantit_of_troops feed(yes or np)\n!mm push x y hour(hh:mm:ss) quantity/player\n!mm crops x y"
+        msg ="For prepare mm (def, push or feeding), you need args like :\n!mm def x y hour quantit_of_troops feed(yes or np)\n!mm for x y hour(hh:mm:ss) quantity/player\n!mm crops x y"
         embed=discord.Embed(title="Help mass message", color=0x1ea91e)
         embed.add_field(name="Command :" , value=msg)
         embed.set_footer(text="finals.travian.com")
@@ -144,7 +144,7 @@ async def mm(ctx,*args):
         return
     elif(args[0] =='def'):
         if(args[5]=='yes'):
-            msg ="Hello,\n\nNeed def for [x/y]"+args[1]+"/"+args[2]+"[/x/y] pour "+args[3]+" , server time\nQuantity needed : "+args[4]+"k\nDon't forget to feed\n\nThanks in advance,\n"+prefix
+            msg ="Hello,\n\nNeed def for [x/y]"+args[1]+"/"+args[2]+"[/x/y] for "+args[3]+" , server time\nQuantity needed : "+args[4]+"k\nDon't forget to feed\n\nThanks in advance,\n"+prefix
             embed=discord.Embed(title="Asking def", color=0x1ea91e)
             embed.set_author(name=prefix)
             embed.set_footer(text="finals.travian.com")
@@ -254,6 +254,7 @@ async def link():
     embed.add_field(name ="Getter",value ="https://www.gettertools.com/finals.travian.com.9/")
     embed.add_field(name ="TW WW",value ="http://www.travianwonder.com/uollasww")
     embed.add_field(name ="Kirilloid",value ="http://travian.kirilloid.ru/")
+    embed.add_field(name = "Gdoc def", value ="https://docs.google.com/spreadsheets/d/1qQUOzl_bZpqYpMpJNXOLSsYq3foIRliIvUAkMkLsF0w/edit#gid=440791252")
     await bot.say(embed=embed)
 
 @bot.command(pass_context=True, brief="Sent an invitation in pm of the server", aliases=['inv'])
