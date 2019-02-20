@@ -60,9 +60,9 @@ async def on_ready():
 async def on_member_join(member):
     channel = get(member.server.channels, name='nouveau-venu')
     await bot.send_message(channel,'{0.name} à rejoins le server !'.format(member))
-    embed=discord.Embed(title="Welcome", color=0x1ea91e)
-    embed.add_field(name="Welcome on G&V server", value = "First, go on #sign-in and type `!sign <pseudo>` with your IG pseudos\nGo in #command for more details on the commands available")
-    await bot.say(embed=data)
+    embed=discord.Embed(title="Welcome", color=0x7f07b0)
+    embed.add_field(name="G&V server", value = "First, go on #sign-in and type `!sign <pseudo>` with your IG pseudos\nGo in #command for more details on the commands available")
+    await bot.say(embed=embed)
     await bot.send_message(member,'Bienvenue sur le serveur !\n!help pour avoir les commandes disponibles'.format(member))
 
 @bot.command(pass_context=True, brief="Give some information about this server discord")
