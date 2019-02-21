@@ -119,18 +119,31 @@ async def sign(ctx, *args):
                     pseudo = prefix + ' (' + pseudo +')'
                     await bot.change_nickname(ctx.message.author, pseudo)
                     embed = discord.Embed(description = "**%s** has been created and added to **%s**"%(role_name, prefix), color = 0xF00000)
-                    await bot.say(embed = embed)
+                    reaction = discord.Reaction
+                    reply = await bot.say(embed = embed)
+                    if(colonne3[rownum]==1):
+                        await bot.add_reaction(reply, :roman:)
+                    elif(colonne3[rownum]==2):
+                        await bot.add_reaction(reply, :gaulx:)
+                    else :
+                        await bot.add_reaction(reply, :german:)
                     return
                 role = get(ctx.message.server.roles, name=role_name)
                 await bot.add_roles(auteur, role)
                 pseudo = prefix + ' (' + pseudo +')'
                 await bot.change_nickname(ctx.message.author, pseudo)
                 embed = discord.Embed(description = "**%s** has been assigned and added to **%s**"%(role, prefix), color = 0xF00000)
-                await bot.say(embed = embed)
+                reply = await bot.say(embed = embed)
+                if(colonne3[rownum]==1):
+                    await bot.add_reaction(reply, :roman:)
+                elif(colonne3[rownum]==2):
+                    await bot.add_reaction(reply, :gaulx:)
+                else :
+                    await bot.add_reaction(reply, :german:)
                 return
     await bot.say("Player doesn't exist, try again")
 
-@bot.command(pass_context = True,brief="Mass message for [x/y]",hidden=True)
+@bot.command(pass_context = True,brief="Mass message for [x|y]",hidden=True)
 async def mm(ctx,*args):
     auteur = ctx.message.author
     prefix = ctx.message.author.name
@@ -146,8 +159,16 @@ async def mm(ctx,*args):
         await bot.send_message(channel_test,embed=embed)
         return
     elif(args[0] =='def'):
-        if(args[5]=='yes'):
-            msg ="Hello,\n\nNeed def for [x/y]"+args[1]+"/"+args[2]+"[/x/y] for "+args[3]+" , server time\nQuantity needed : "+args[4]+"k\nDon't forget to feed\n\nThanks in advance,\n"+prefix
+        if(args[2] =='close'):
+            msg = "Last Wall is closed"
+            embed = discord.Embed(title="Asking def", color = 0x1ea91e)
+            embed.set_author(name = prefix)
+            embed.add_field(name = "CLOSE : ", value =msg)
+            await bot.send_message(channel_message)
+
+
+        elif(args[5]=='yes'):
+            msg ="Hello,\n\nNeed def for [x|y]"+args[1]+"/"+args[2]+"[/x|y] for "+args[3]+" , server time\nQuantity needed : "+args[4]+"k\nDon't forget to feed\n\nThanks in advance,\n"+prefix
             embed=discord.Embed(title="Asking def", color=0x1ea91e)
             embed.set_author(name=prefix)
             embed.set_footer(text="finals.travian.com")
@@ -166,7 +187,7 @@ async def mm(ctx,*args):
             await bot.send_message(channel_message,embed=embed_discord)
 
         else :
-            msg = "Hello warriors and amazons,\n\nNeed def in [x/y]"+args[1]+"/"+args[2]+"[/x/y] for "+args[3]+", server time\nTroops needed : "+args[4]+"k\nNo need to feed\n\nThank in advance,\n"+prefix
+            msg = "Hello warriors and amazons,\n\nNeed def in [x|y]"+args[1]+"/"+args[2]+"[/x|y] for "+args[3]+", server time\nTroops needed : "+args[4]+"k\nNo need to feed\n\nThank in advance,\n"+prefix
             embed=discord.Embed(title="Asking def wall", color=0x1ea91e)
             embed.set_author(name=prefix)
             embed.set_footer(text="finals.travian.com")
@@ -185,7 +206,7 @@ async def mm(ctx,*args):
             await bot.send_message(channel,embed=embed)
             await bot.send_message(channel_message,embed=embed_discord)
     elif(args[0]=='push'):
-        msg = "Hello everyone,\n\nPush in [x/y]"+args[1]+"/"+args[2]+"[/x/y] until "+args[3]+" , server time\n"+args[4]+"k/player asked\n\nThank you in advance,\n"+prefix
+        msg = "Hello everyone,\n\nPush in [x|y]"+args[1]+"/"+args[2]+"[/x|y] until "+args[3]+" , server time\n"+args[4]+"k/player asked\n\nThank you in advance,\n"+prefix
         embed=discord.Embed(title="Push", color=0x1ea91e)
         embed.set_author(name=prefix)
         embed.set_footer(text="finals.travian.com")
@@ -202,7 +223,7 @@ async def mm(ctx,*args):
         await bot.send_message(channel_message,embed=embed_discord)
 
     elif(args[0]=='crops'):
-        msg = "Hello everyone,\n\nDon't forget to feed in [x/y]"+args[1]+"/"+args[2]+"[/x/y],\nThank you in advance\n"+prefix
+        msg = "Hello everyone,\n\nDon't forget to feed in [x|y]"+args[1]+"/"+args[2]+"[/x|y],\nThank you in advance\n"+prefix
         embed=discord.Embed(title="Crops", color=0x1ea91e)
         embed.set_author(name=prefix)
         embed.set_footer(text="finals.travian.com")
@@ -216,17 +237,33 @@ async def mm(ctx,*args):
         await bot.send_message(channel,embed=embed)
         await bot.send_message(channel_message,embed=embed_discord)
 
+
+@bot.command(pass_context = True, hidden = False, brief= "Add role to author")
+async def addrole(ctx,*args):
+    msg = ' '.join(args)
+    auteur = ctx.message.author
+    role_serveur = [roles.name.lower() for roles in ctx.message.server.roles]
+    role_member = [roles.name.lower() for roles in ctx.message.author.roles]
+    if (msg not in role_serveur):
+        if(msg not in role_member):
+            role = await bot.create_role(auteur.server, name=msg)
+            await bot.say('%s has been added by %s'%(msg,auteur) )
+        await bot.say("You have already this role")
+    await bot.say("Role has not been created")
+
+
+
 @bot.command(pass_context = True, hidden=True,brief="Créé un role")
 async def createrole(ctx, *args):
     role = [roles.name.lower() for roles in ctx.message.server.roles]
-    if 'Admin' not in role:
-        return await bot.say("**Désolé tu n'es pas autorisé à faire cette commande!**")
+    if 'admin' not in role:
+        return await bot.say("**You are not allowed to make this command!**")
     msg = ' '.join(args)
     auteur = ctx.message.author
     color = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
     color = int(color, 16)
     role = await bot.create_role(auteur.server, name=msg, colour=discord.Colour(color))
-    await bot.say('Role créé avec succes par %s'%auteur )
+    await bot.say('Roles has been created by %s'%auteur )
 
 @bot.command(pass_context = True, brief="Info player")
 async def info(ctx ,*args):
@@ -292,10 +329,10 @@ async def kick(ctx, *, member : discord.Member = None):
     role = [roles.name.lower() for roles in ctx.message.author.roles]
 
     if 'admin' not in role:
-        return await bot.say("**Désolé tu n'es pas autorisé à faire cette commande!**")
+        return await bot.say("**Sorry, you are not allowed to make this command!**")
     if not member:
         return await bot.say(ctx.message.author.mention + ", veuillez préciser le membre à kick")
-    embed = discord.Embed(description = "**%s** à été kick"%member.name, color = 0xF00000)
+    embed = discord.Embed(description = "**%s** has been kick"%member.name, color = 0xF00000)
     embed.set_footer(text="Bye bye")
     await bot.kick(member)
     await bot.say(embed = embed)
@@ -316,7 +353,7 @@ async def clear(ctx, lignes):
     async for x in bot.logs_from(ctx.message.channel, limit = lignes+1):
         mgs.append(x)
     await bot.delete_messages(mgs)
-    embed = discord.Embed(description = "**%s** message(s) supprimé(s) par **%s**"%(lignes, ctx.message.author), color = 0xF00000)
+    embed = discord.Embed(description = "**%s** message(s) delete by **%s**"%(lignes, ctx.message.author), color = 0xF00000)
     embed.set_footer(text="Clear")
     await bot.say(embed = embed)
 
