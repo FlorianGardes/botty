@@ -5,7 +5,7 @@ import time
 import datetime
 from time import gmtime, strftime
 from discord.ext import commands
-from options_fricen import *
+from options_ghosty import *
 from discord.utils import *
 
 class fun:

@@ -2,7 +2,7 @@ import discord
 import asyncio
 import random
 from discord.ext import commands
-from options_fricen import *
+from options_ghosty import *
 from discord.utils import *
 
 def is_allow(ctx):
@@ -71,18 +71,38 @@ class serveur:
         await self.bot.send_message(ctx.message.channel, embed=embed)
         await self.bot.send_message(auteur, embed=embedmp)
 
+    @commands.command(pass_context = True, hidden = False)
+    async def addrole(self,ctx,*args):
+        msg = ' '.join(args)
+        auteur = ctx.message.author
+        prefix = ctx.message.author.name
+        role_serveur = [roles.name.lower() for roles in ctx.message.server.roles]
+        role_member = [roles.name.lower() for roles in ctx.message.author.roles]
+        if(('hc' not in role_member or 'admin' not in role_member) and ( 'hc'==msg or 'admin' ==msg)):
+            return await self.bot.say("**You are not allowed to take this role**")
+        if (msg in role_serveur):
+            if(msg not in role_member):
+                role = get(ctx.message.server.roles, name = msg)
+                await self.bot.add_roles(auteur,role )
+                await self.bot.say('%s has been added to %s'%(msg,prefix) )
+                return
+            await self.bot.say("You have already this role")
+            return
+        await self.bot.say("Role has not been created")
+
+
+
     @commands.command(pass_context = True, hidden=True)
-    async def createrole(self, ctx, *args):
-        """Créé un role"""
+    async def createrole(self,ctx, *args):
         role = [roles.name.lower() for roles in ctx.message.server.roles]
         if 'admin' not in role:
-            return await self.bot.say("**Désolé tu n'es pas autorisé à faire cette commande!**")
+            return await self.bot.say("**You are not allowed to make this command!**")
         msg = ' '.join(args)
         auteur = ctx.message.author
         color = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
         color = int(color, 16)
         role = await self.bot.create_role(auteur.server, name=msg, colour=discord.Colour(color))
-        await self.bot.say('Role créé avec succes par %s'%auteur )
+        await self.bot.say('Roles has been created by %s'%auteur )
 
     @commands.command(pass_context = True, hidden=True)
     async def kick(self, ctx, *, member : discord.Member = None):

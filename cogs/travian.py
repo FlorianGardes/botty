@@ -2,7 +2,7 @@ import discord
 import asyncio
 import xlrd
 from discord.ext import commands
-from options_fricen import *
+from options_ghosty import *
 from discord.utils import *
 
 def is_channel(channel_id):
@@ -29,6 +29,7 @@ class travian:
         colonne1 = sh.col_values(2)
         colonne2 = sh.col_values(4)
         colonne3 = sh.col_values(0)
+        #reaction = ['\u2160','\u20B0']
         for rownum in range(sh.nrows):
                 if(colonne1[rownum]==msg):
                     role_name = colonne2[rownum]
@@ -42,16 +43,49 @@ class travian:
                         pseudo = prefix + ' (' + pseudo +')'
                         await self.bot.change_nickname(auteur, pseudo)
                         embed = discord.Embed(description = "**%s** has been created and added to **%s**"%(role_name, prefix), color = 0xF00000)
-                        await self.bot.say(embed = embed)
+                        reply = await self.bot.say(embed = embed)
+                        if(colonne3[rownum]==1):
+                            emoji = get(self.bot.get_all_emojis(), name ='roman')
+                        elif(colonne3[rownum]==2):
+                            emoji = get(self.bot.get_all_emojis(), name ='german')
+                        else :
+                            emoji = get(self.bot.get_all_emojis(), name ='gaulx')
+                        await self.bot.add_reaction(reply, emoji)
                         return
                     role = get(ctx.message.server.roles, name=role_name)
                     await self.bot.add_roles(auteur, role)
                     pseudo = prefix + ' (' + pseudo +')'
                     await self.bot.change_nickname(auteur, pseudo)
                     embed = discord.Embed(description = "**%s** has been assigned and added to **%s**"%(role, prefix), color = 0xF00000)
-                    await self.bot.say(embed = embed)
+                    reply = await self.bot.say(embed = embed)
+                    if(colonne3[rownum]==1):
+                        emoji = get(self.bot.get_all_emojis(), name ='roman')
+                    elif(colonne3[rownum]==2):
+                        emoji = get(self.bot.get_all_emojis(), name ='german')
+                    else :
+                        emoji = get(self.bot.get_all_emojis(), name ='gaulx')
+                    await self.bot.add_reaction(reply, emoji)
                     return
         await self.bot.say("Player doesn't exist, try again")
+
+    @commands.command(pass_context = True, hidden=False)
+    async def assignrole(self, ctx, *args):
+        auteur = ctx.message.author.name
+        role_off = get(ctx.message.server.roles, name="off")
+        role_def = get(ctx.message.server.roles, name="def")
+        msg = "Please, choose your orientation with clicking on sword ( off ) or shield (def)"
+        embed = discord.Embed(title="Orientation", color = 0x6cf16a)
+        embed.add_field(name="Off / def :" , value=msg)
+        channel = discord.Object(id=channel_bienvenue)
+        reply = await self.bot.say(embed = embed)
+        emoji_off = get(self.bot.get_all_emojis(), name ='off')
+        emoji_def = get(self.bot.get_all_emojis(), name ='def')
+        await self.bot.add_reaction(reply, emoji_off)
+        await self.bot.add_reaction(reply, emoji_def)
+
+
+
+
 
     @commands.command(pass_context = True, hidden=True)
     async def mm(self, ctx,*args):
@@ -60,7 +94,10 @@ class travian:
         Example: !mm def 205 77 17:19:00 all yes
         ======================================
         Push msg: !mm push x y hour quantity
-        Example: !mm push 121 122 14:00:00 30"""
+        Example: !mm push 121 122 14:00:00 30
+        ======================================
+        Crop msg: !mm crop x y
+        Example : !mm crop 100 100"""
         auteur = ctx.message.author
         prefix = ctx.message.author.name
         channel = discord.Object(id=message_alliance_ig)#message-alliance-ig
@@ -75,7 +112,21 @@ class travian:
             await self.bot.send_message(channel_test,embed=embed)
             return
         elif(args[0] =='def'):
-            if(args[5]=='yes'):
+            if(args[1]=='close'):
+                msg = "Hello, last wall is closed"
+                embed = discord.Embed(title ="Asking def close", color = 0x1ea91e)
+                embed.set_author(name = prefix)
+                embed.set_footer(text="Thank you")
+                embed.add_field(name="Close", value = msg)
+                await self.bot.send_message(channel,embed=embed)
+
+                embed_discord = discord.Embed(title ="Asking def close", color = 0x1ea91e)
+                embed_discord.set_author(name = prefix)
+                embed_discord.set_footer(text="Thank you")
+                embed_discord.add_field(name="Close", value = msg)
+                await self.bot.send_message(channel_message,embed=embed_discord)
+
+            elif(args[5]=='yes'):
                 msg ="Hello,\n\nNeed def for [x|y]"+args[1]+"|"+args[2]+"[/x|y] for "+args[3]+" , server time\nQuantity needed : "+args[4]+"k\nDon't forget to feed\n\nThanks in advance,\n"+prefix
                 embed=discord.Embed(title="Asking def", color=0x1ea91e)
                 embed.set_author(name=prefix)
