@@ -90,7 +90,7 @@ class travian:
                 embed_discord.add_field(name="Village to def", value = village)
                 embed_discord.add_field(name="Time set",value = args[3])
                 embed_discord.add_field(name="Troops needed ( in k )", value = args[4])
-                embed_discord.add_field(name = "Need to def ?  ", value = "Yes")
+                embed_discord.add_field(name = "Need to feed ?  ", value = "Yes")
                 await self.bot.send_message(channel,embed=embed)
                 await self.bot.send_message(channel_message,embed=embed_discord)
 
