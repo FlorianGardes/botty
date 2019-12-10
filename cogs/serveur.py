@@ -72,7 +72,7 @@ class serveur:
         await self.bot.send_message(auteur, embed=embedmp)
     
     
-    @bot.command(pass_context = True, hidden = False, brief= "Add role to author")
+    @command.command(pass_context = True, hidden = False, brief= "Add role to author")
     async def addrole(ctx,*args):
         msg = ' '.join(args)
         auteur = ctx.message.author
