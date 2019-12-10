@@ -1,6 +1,7 @@
 import discord
 import asyncio
 import xlrd
+import random
 from discord.ext import commands
 from options_fricen import *
 from discord.utils import *
