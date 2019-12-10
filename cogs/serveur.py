@@ -70,7 +70,22 @@ class serveur:
         await self.bot.delete_message(ctx.message)
         await self.bot.send_message(ctx.message.channel, embed=embed)
         await self.bot.send_message(auteur, embed=embedmp)
-
+    
+    
+    @bot.command(pass_context = True, hidden = False, brief= "Add role to author")
+    async def addrole(ctx,*args):
+    msg = ' '.join(args)
+    auteur = ctx.message.author
+    role_serveur = [roles.name.lower() for roles in ctx.message.server.roles]
+    role_member = [roles.name.lower() for roles in ctx.message.author.roles]
+    if (msg not in role_serveur):
+        if(msg not in role_member):
+            role = await bot.create_role(auteur.server, name=msg)
+            await bot.say('%s has been added by %s'%(msg,auteur) )
+        await bot.say("You have already this role")
+    await bot.say("Role has not been created")
+    
+    
     @commands.command(pass_context = True, hidden=True)
     async def createrole(self, ctx, *args):
         """Créé un role"""
