@@ -162,7 +162,7 @@ class travian:
         for rownum in range (sh.nrows):
             if(colonne1[rownum]==msg):
                 embed = discord.Embed(title="Information", color=0xff8c00)
-                joueur = "https://finals.travian.com/spieler.php?aid=%d" %(int(colonne1_id[rownum]))
+                joueur = "https://finals.travian.com/spieler.php?uid=%d" %(int(colonne1_id[rownum]))
                 alliance = "https://finals.travian.com/allianz.php?aid=%d" %(int(colonne2_id[rownum]))
                 embed.add_field(name =msg,value =joueur)
                 embed.add_field(name = colonne2[rownum], value = alliance)
