@@ -71,7 +71,7 @@ class travian:
             msg ="For prepare mm (def, push or feeding), you need args like :\n!mm def x y hour quantit_of_troops feed(yes or np)\n!mm push x y hour(hh:mm:ss) quantity/player\n!mm crops x y"
             embed=discord.Embed(title="Help mass message", color=0x1ea91e)
             embed.add_field(name="Command :" , value=msg)
-            embed.set_footer(text="finals.travian.com")
+            embed.set_footer(text="group.europe.travian.com")
             embed.set_author(name=prefix)
             await self.bot.send_message(channel_test,embed=embed)
             return
@@ -80,11 +80,11 @@ class travian:
                 msg ="Hello,\n\nNeed def for [x|y]"+args[1]+"|"+args[2]+"[/x|y] for "+args[3]+" , server time\nQuantity needed : "+args[4]+"k\nDon't forget to feed\n\nThanks in advance,\n"+prefix
                 embed=discord.Embed(title="Asking def", color=0x1ea91e)
                 embed.set_author(name=prefix)
-                embed.set_footer(text="finals.travian.com")
+                embed.set_footer(text="group.europe.travian.com")
                 embed.add_field(name="Message : ", value=msg)
 
 
-                village = "https://finals.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
+                village = "https://group.europe.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
                 embed_discord=discord.Embed(title="Asking def wall", color=0x1ea91e)
                 embed_discord.set_author(name=prefix)
                 embed_discord.set_footer(text="Thank you")
@@ -99,12 +99,12 @@ class travian:
                 msg = "Hello warriors and amazons,\n\nNeed def in [x|y]"+args[1]+"|"+args[2]+"[/x|y] for "+args[3]+", server time\nTroops needed : "+args[4]+"k\nNo need to feed\n\nThank in advance,\n"+prefix
                 embed=discord.Embed(title="Asking def wall", color=0x1ea91e)
                 embed.set_author(name=prefix)
-                embed.set_footer(text="finals.travian.com")
+                embed.set_footer(text="group.europe.travian.com")
                 embed.add_field(name="Message : ", value=msg)
 
 
 
-                village = "https://finals.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
+                village = "https://group.europe.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
                 embed_discord=discord.Embed(title="Asking Def Wall", color=0x1ea91e)
                 embed_discord.set_author(name=prefix)
                 embed_discord.set_footer(text="Thank you")
@@ -118,10 +118,10 @@ class travian:
             msg = "Hello everyone,\n\nPush in [x|y]"+args[1]+"|"+args[2]+"[/x|y] until "+args[3]+" , server time\n"+args[4]+"k/player asked\n\nThank you in advance,\n"+prefix
             embed=discord.Embed(title="Push", color=0x1ea91e)
             embed.set_author(name=prefix)
-            embed.set_footer(text="finals.travian.com")
+            embed.set_footer(text="group.europe.travian.com")
             embed.add_field(name="Message : ", value=msg)
 
-            village = "https://finals.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
+            village = "https://group.europe.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
             embed_discord=discord.Embed(title="Push", color=0x1ea91e)
             embed_discord.set_author(name=prefix)
             embed_discord.set_footer(text="Thank you")
@@ -135,10 +135,10 @@ class travian:
             msg = "Hello everyone,\n\nDon't forget to feed in [x|y]"+args[1]+"|"+args[2]+"[/x|y],\nThank you in advance\n"+prefix
             embed=discord.Embed(title="Crops", color=0x1ea91e)
             embed.set_author(name=prefix)
-            embed.set_footer(text="finals.travian.com")
+            embed.set_footer(text="group.europe.travian.com")
             embed.add_field(name="Need crops : ", value=msg)
 
-            village = "https://finals.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
+            village = "https://group.europe.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
             embed_discord=discord.Embed(title="Push", color=0x1ea91e)
             embed_discord.set_author(name=prefix)
             embed_discord.set_footer(text="Thank you")
@@ -163,8 +163,8 @@ class travian:
         for rownum in range (sh.nrows):
             if(colonne1[rownum]==msg):
                 embed = discord.Embed(title="Information", color=0xff8c00)
-                joueur = "https://finals.travian.com/spieler.php?uid=%d" %(int(colonne1_id[rownum]))
-                alliance = "https://finals.travian.com/allianz.php?aid=%d" %(int(colonne2_id[rownum]))
+                joueur = "https://group.europe.travian.com/spieler.php?uid=%d" %(int(colonne1_id[rownum]))
+                alliance = "https://group.europe.travian.com/allianz.php?aid=%d" %(int(colonne2_id[rownum]))
                 embed.add_field(name =msg,value =joueur)
                 embed.add_field(name = colonne2[rownum], value = alliance)
                 await self.bot.say(embed=embed)
@@ -175,8 +175,8 @@ class travian:
     async def link(self):
         """Some usefull links"""
         embed = discord.Embed(title="Link", color=0xff8c00)
-        embed.add_field(name ="Server",value ="https://finals.travian.com")
-        embed.add_field(name ="Getter",value ="https://www.gettertools.com/finals.travian.com.11/")
+        embed.add_field(name ="Server",value ="https://group.europe.travian.com")
+        embed.add_field(name ="Getter",value ="https://www.gettertools.com/group.europe.travian.com.11/")
         #embed.add_field(name ="TW WW",value ="http://www.travianwonder.com/uollasww")
         embed.add_field(name ="Kirilloid",value ="http://travian.kirilloid.ru/")
         embed.add_field(name = "Gdoc def", value ="https://docs.google.com/spreadsheets/d/1kYZnD2GsUd2nNRjc4o5fFvvXrqhZ9YnAwguosK5dVCA/edit#gid=440791252")
