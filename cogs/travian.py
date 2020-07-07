@@ -25,7 +25,7 @@ class travian:
         auteur = ctx.message.author
         prefix = ctx.message.author.name
         msg = ' '.join(args)
-        wb = xlrd.open_workbook('data/Map_complet.xls')
+        wb = xlrd.open_workbook('data/Map_Complet.xls')
         sh = wb.sheet_by_name(u'Map_Complet')
         colonne1 = sh.col_values(2)
         colonne2 = sh.col_values(4)
@@ -154,7 +154,7 @@ class travian:
         auteur = ctx.message.author
         prefix = ctx.message.author.name
         msg = ' '.join(args)
-        wb = xlrd.open_workbook('data/Map_complet.xls')
+        wb = xlrd.open_workbook('data/Map_Complet.xls')
         sh = wb.sheet_by_name(u'Map_Complet')
         colonne1_id = sh.col_values(1)
         colonne1 = sh.col_values(2)
@@ -176,10 +176,10 @@ class travian:
         """Some usefull links"""
         embed = discord.Embed(title="Link", color=0xff8c00)
         embed.add_field(name ="Server",value ="https://group.europe.travian.com")
-        embed.add_field(name ="Getter",value ="https://www.gettertools.com/group.europe.travian.com.11/")
+        embed.add_field(name ="Getter",value ="https://www.gettertools.com/group.europe.travian.com/")
         #embed.add_field(name ="TW WW",value ="http://www.travianwonder.com/uollasww")
         embed.add_field(name ="Kirilloid",value ="http://travian.kirilloid.ru/")
-        embed.add_field(name = "Gdoc def", value ="https://docs.google.com/spreadsheets/d/1kYZnD2GsUd2nNRjc4o5fFvvXrqhZ9YnAwguosK5dVCA/edit#gid=440791252")
+        #embed.add_field(name = "Gdoc def", value ="https://docs.google.com/spreadsheets/d/1kYZnD2GsUd2nNRjc4o5fFvvXrqhZ9YnAwguosK5dVCA/edit#gid=440791252")
         await self.bot.say(embed=embed)
 
 def setup(bot):
