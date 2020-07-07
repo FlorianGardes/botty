@@ -162,13 +162,13 @@ class travian:
         colonne2 = sh.col_values(4)
         for rownum in range (sh.nrows):
 
+            if(colonne1[rownum]==msg):
                 embed = discord.Embed(title="Information", color=0xff8c00)
                 joueur = "https://group.europe.travian.com/spieler.php?uid=%d" %(int(colonne1_id[rownum]))
                 alliance = "https://group.europe.travian.com/allianz.php?aid=%d" %(int(colonne2_id[rownum]))
                 embed.add_field(name =msg,value =joueur)
                 embed.add_field(name = colonne2[rownum], value = alliance)
                 await self.bot.say(embed=embed)
-                #if(colonne1[rownum]==msg):
                 return
         await self.bot.say("Player doesn't exist")
 
