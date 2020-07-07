@@ -168,7 +168,7 @@ class travian:
                 embed.add_field(name =msg,value =joueur)
                 embed.add_field(name = colonne2[rownum], value = alliance)
                 await self.bot.say(embed=embed)
-                /*if(colonne1[rownum]==msg):*/
+                #if(colonne1[rownum]==msg):
                 return
         await self.bot.say("Player doesn't exist")
 
