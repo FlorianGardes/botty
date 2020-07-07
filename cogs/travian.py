@@ -156,10 +156,10 @@ class travian:
         msg = ' '.join(args)
         wb = xlrd.open_workbook('data/Map_Complet.xls')
         sh = wb.sheet_by_name(u'Map_Complet')
-        colonne1_id = sh.col_values(1)
-        colonne1 = sh.col_values(2)
-        colonne2_id = sh.col_values(3)
-        colonne2 = sh.col_values(4)
+        colonne1_id = sh.col_values(8)
+        colonne1 = sh.col_values(9)
+        colonne2_id = sh.col_values(10)
+        colonne2 = sh.col_values(11)
         for rownum in range (sh.nrows):
             if(colonne1[rownum]==msg):
                 embed = discord.Embed(title="Information", color=0xff8c00)
