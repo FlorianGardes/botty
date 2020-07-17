@@ -166,8 +166,12 @@ class travian:
                 embed = discord.Embed(title="Information", color=0xff8c00)
                 joueur = "https://group.europe.travian.com/spieler.php?uid=%d" %(int(colonne1_id[rownum]))
                 alliance = "https://group.europe.travian.com/allianz.php?aid=%d" %(int(colonne2_id[rownum]))
+                getter_joueur = "https://www.gettertools.com/group.europe.travian.com/20-Trooptool?getInfo=1&uid=%d" %(int(colonne1_id[rownum]))
+                getter_alliance = "https://www.gettertools.com/group.europe.travian.com/20-Trooptool?getInfo=1&aid=%d" %(int(colonne2_id[rownum]))
                 embed.add_field(name =msg,value =joueur)
                 embed.add_field(name = colonne2[rownum], value = alliance)
+                embed.add_field(name ="Getter Player"",value =getter_joueur)
+                embed.add_field(name = "Getter Alliance", value = getter_alliance)
                 await self.bot.say(embed=embed)
                 return
         await self.bot.say("Player doesn't exist")
