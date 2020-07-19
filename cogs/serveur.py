@@ -56,7 +56,7 @@ class serveur:
 
         await self.bot.say(embed=data)
 
-    @commands.command(pass_context=True, aliases=['inv'])
+    @commands.command(pass_context=True, aliases=['inv'], hidden = True)
     async def invite(self, ctx):
         """Sent an invitation in pm of the server"""
         channel = discord.Object(id=channel_bienvenue)
@@ -72,7 +72,7 @@ class serveur:
         await self.bot.send_message(auteur, embed=embedmp)
 
 
-    @commands.command(pass_context = True, hidden = False, brief= "Add role to author")
+    @commands.command(pass_context = True, hidden = True, brief= "Add role to author")
     async def addrole(ctx,*args):
         msg = ' '.join(args)
         auteur = ctx.message.author
