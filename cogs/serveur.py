@@ -70,8 +70,8 @@ class serveur:
         await self.bot.delete_message(ctx.message)
         await self.bot.send_message(ctx.message.channel, embed=embed)
         await self.bot.send_message(auteur, embed=embedmp)
-    
-    
+
+
     @commands.command(pass_context = True, hidden = False, brief= "Add role to author")
     async def addrole(ctx,*args):
         msg = ' '.join(args)
@@ -84,21 +84,21 @@ class serveur:
                 await bot.say('%s has been added by %s'%(msg,auteur) )
             await bot.say("You have already this role")
         await bot.say("Role has not been created")
-    
-    
+
+
     @commands.command(pass_context = True, hidden=True)
     async def createrole(self, ctx, *args):
         """Créé un role"""
         role = [roles.name.lower() for roles in ctx.message.server.roles]
         if 'admin' not in role:
-            return await self.bot.say("**Désolé tu n'es pas autorisé à faire cette commande!**")
+            return await self.bot.say("**Sorry you are not allowed to make this order!**")
         msg = ' '.join(args)
         auteur = ctx.message.author
         color = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
         color = int(color, 16)
         role = await self.bot.create_role(auteur.server, name=msg, colour=discord.Colour(color))
         await self.bot.say('Role créé avec succes par %s'%auteur )
-        
+
 
 
     @commands.command(pass_context = True, hidden=True)
@@ -107,9 +107,9 @@ class serveur:
         role = [roles.name.lower() for roles in ctx.message.author.roles]
 
         if 'admin' not in role:
-            return await self.bot.say("**Désolé tu n'es pas autorisé à faire cette commande!**")
+            return await self.bot.say("**Sorry you are not allowed to make this order!**")
         if not member:
-            return await self.bot.say(ctx.message.author.mention + ", veuillez préciser le membre à kick")
+            return await self.bot.say(ctx.message.author.mention + ", please specify the member to kick")
         embed = discord.Embed(description = "**%s** à été kick"%member.name, color = 0xF00000)
         embed.set_footer(text="Bye bye")
         await self.bot.kick(member)
@@ -123,7 +123,7 @@ class serveur:
         async for x in self.bot.logs_from(ctx.message.channel, limit = lignes+1):
             mgs.append(x)
         await self.bot.delete_messages(mgs)
-        embed = discord.Embed(description = "**%s** message(s) supprimé(s) par **%s**"%(lignes, ctx.message.author), color = 0xF00000)
+        embed = discord.Embed(description = "**%s** message deleted by **%s**"%(lignes, ctx.message.author), color = 0xF00000)
         embed.set_footer(text="Clear")
         await self.bot.say(embed = embed)
 
