@@ -62,7 +62,7 @@ class serveur:
         channel = discord.Object(id=channel_bienvenue)
         auteur = ctx.message.author
         server = ctx.message.server
-        link = await self.bot.create_invite(destination = channel, temporary = False, max_uses = 1)
+        link = await self.bot.create_invite(destination = channel, temporary = False, max_uses = 0)
         embedmp = discord.Embed(color=0xf41af4)
         embedmp.add_field(name="Discord invitation link:", value=link)
         embedmp.set_footer(text="%s invited link"%server)
