@@ -67,7 +67,7 @@ class travian:
         channel = discord.Object(id=message_alliance_ig)#message-alliance-ig
         channel_test = discord.Object(id=test_bot)#test-bot
         channel_message_push = discord.Object(id=message_alliance)#message-alliance classique
-        channel_message_alliance = discord.Object(id=message_alliance)#message-alliance def
+        channel_message_def = discord.Object(id=message_def)#message-alliance def
         if(args[0] == 'help'):
             msg ="For prepare mm (def, push or feeding), you need args like :\n!mm def x y hour quantit_of_troops feed(yes or np)\n!mm push x y hour(hh:mm:ss) quantity/player\n!mm crops x y"
             embed=discord.Embed(title="Help mass message", color=0x1ea91e)
@@ -94,7 +94,7 @@ class travian:
                 embed_discord.add_field(name="Troops needed ( in k )", value = args[4])
                 embed_discord.add_field(name = "Need to feed ?  ", value = "Yes")
                 await self.bot.send_message(channel,embed=embed)
-                await self.bot.send_message(message_alliance,embed=embed_discord)
+                await self.bot.send_message(channel_message_def,embed=embed_discord)
 
             else :
                 msg = "Hello warriors and amazons,\n\nNeed def in [x|y]"+args[1]+"|"+args[2]+"[/x|y] for "+args[3]+", server time\nTroops needed : "+args[4]+"k\nNo need to feed\n\nThank in advance,\n"+prefix
@@ -114,7 +114,7 @@ class travian:
                 embed_discord.add_field(name="Troops needed ( in k ) ", value = args[4])
                 embed_discord.add_field(name = "Need to feed ? ", value = "No")
                 await self.bot.send_message(channel,embed=embed)
-                await self.bot.send_message(channel_message_alliance,embed=embed_discord)
+                await self.bot.send_message(channel_message_def,embed=embed_discord)
         elif(args[0]=='push'):
             msg = "Hello everyone,\n\nPush in [x|y]"+args[1]+"|"+args[2]+"[/x|y] until "+args[3]+" , server time\n"+args[4]+"k/player asked\n\nThank you in advance,\n"+prefix
             embed=discord.Embed(title="Push", color=0x1ea91e)

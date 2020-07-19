@@ -10,5 +10,5 @@ channel_bienvenue = '547111805395140625'
 channel_inscription = '373896386866970625'
 test_bot = '541923416832475136'
 message_alliance = '373549029575098369'#info-hc
-message_def = '547109529045696522'#info-def
+message_def = '373549029575098369'#info-def
 message_alliance_ig = '546765589818114108'
