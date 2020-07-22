@@ -69,7 +69,11 @@ class travian:
         channel_message_push = discord.Object(id=message_alliance)#message-alliance classique
         channel_message_def = discord.Object(id=message_def)#message-alliance def
         if(args[0] == 'help'):
+<<<<<<< HEAD
             msg ="For prepare mm (def, statik, push or feeding), you need args like :\n!mm def x y hour quantit_of_troops feed(yes or no)\n!mm statik x y quantity/player\n!mm push x y hour(hh:mm:ss) quantity/player\n!mm crops x y"
+=======
+            msg ="For prepare mm (def, push or feeding), you need args like :\n!mm def x y hour quantit_of_troops feed(yes or no)\n!mm push x y hour(hh:mm:ss) quantity/player\n!mm crops x y"
+>>>>>>> e5725ce616eb8b4c4bfd0556636a2de156d303b3
             embed=discord.Embed(title="Help mass message", color=0x1ea91e)
             embed.add_field(name="Command :" , value=msg)
             embed.set_footer(text="group.europe.travian.com")
