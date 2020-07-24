@@ -19,7 +19,7 @@ cogs_list = [extensions.Travian,
 
 # Permet de vérifier le bon lancement du bot
 @bot.event
-async def on_ready(self):
+async def on_ready():
         print('--------------------------------')
         print('Bot connecté')
         print('Username : {}'.format(self.bot.user.name))
@@ -32,6 +32,6 @@ async def on_ready(self):
         for cog in cogs_list:
                 bot.add_cog(cog(bot))
                 
-        await self.bot.change_presence(game=(discord.Game(name='{}help'.format(CommandPrefix))))
+        await bot.change_presence(game=(discord.Game(name='{}help'.format(CommandPrefix))))
 
 bot.run(Token_Fricen)
