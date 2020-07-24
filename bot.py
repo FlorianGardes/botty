@@ -30,7 +30,21 @@ cogs_list = [cogs.Travian,
              cogs.Serveur,
              cogs.Fun]
 
-for cog in cogs_list:
-        bot.add_cog(cog(bot))
+# Permet de vérifier le bon lancement du bot
+@bot.event
+async def on_ready(self):
+        print('--------------------------------')
+        print('Bot connecté')
+        print('Username : {}'.format(self.bot.user.name))
+        print('ID : {}'.format(self.bot.user.id))
+        print('discord.py v{}'.format(discord.__version__))
+        print('Nombre de serveur infectés:', str(len(self.bot.servers)))
+        print('Nombre de personnes visibles:',len(set(self.bot.get_all_members())))
+        print('--------------------------------')
+        
+        for cog in cogs_list:
+                bot.add_cog(cog(bot))
+                
+        await self.bot.change_presence(game=(discord.Game(name='{}help'.format(CommandPrefix))))
 
 bot.run(Token_Fricen)
