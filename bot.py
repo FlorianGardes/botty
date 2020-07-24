@@ -28,9 +28,6 @@ try:
     bot.load_extension("cogs.travian")
     bot.load_extension("cogs.serveur")
     bot.load_extension("cogs.fun")
-except Exception as e:
-            exc = '{}: {}'.format(type(e).__name__, e)
-            print(("Failed to load extension {}\n{}").format(extension, exc))
 
 # Fonctions utiles
 '''def is_owner(ctx):
