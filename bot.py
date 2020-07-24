@@ -25,7 +25,7 @@ from options_fricen import *
 bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
 
 bot.add_cog(travian(bot))
-bot.add_cog(serveur(bot)
+bot.add_cog(serveur(bot))
 bot.add_cog(fun(bot))
 
 bot.run(Token_Fricen)
