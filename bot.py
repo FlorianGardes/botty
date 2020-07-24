@@ -20,24 +20,12 @@ from discord.ext import commands
 from os import environ
 
 from options_fricen import *
-
-class travian:
-    def __init__(self, bot):
-        self.bot = bot
-
-class serveur:
-    def __init__(self, bot):
-        self.bot = bot
-        
-class fun:
-    def __init__(self, bot):
-        self.bot = bot
         
 # Here you can modify the bot's prefix and description and wether it sends help in direct messages or not.
 bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
 
-bot.add_cog(travian(bot))
-bot.add_cog(serveur(bot))
-bot.add_cog(fun(bot))
+bot.load_extension("cogs.travian")
+bot.load_extension("cogs.serveur")
+bot.load_extension("cogs.fun")
 
 bot.run(Token_Fricen)
