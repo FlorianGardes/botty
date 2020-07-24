@@ -24,12 +24,12 @@ from os import environ
 from options_fricen import *
 
 # Here you can modify the bot's prefix and description and wether it sends help in direct messages or not.
-bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
+self.bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
 
 try:
-    bot.load_extension("Cog.travian")
-    bot.load_extension("Cog.serveur")
-    bot.load_extension("Cog.fun")
+    self.bot.load_extension("Cog.travian")
+    self.bot.load_extension("Cog.serveur")
+    self.bot.load_extension("Cog.fun")
 except Exception as e:
             exc = '{}: {}'.format(type(e).__name__, e)
             print(("Failed to load extension {}\n{}").format(extension, exc))
@@ -41,7 +41,7 @@ def is_owner(ctx):
     return False
 
 # Permet de vérifier le bon lancement du bot
-@bot.event
+'''@bot.event
 async def on_ready():
     print('--------------------------------')
     print('Bot connecté')
@@ -51,21 +51,21 @@ async def on_ready():
     print('Nombre de serveur infectés:', str(len(bot.servers)))
     print('Nombre de personnes visibles:',len(set(bot.get_all_members())))
     print('--------------------------------')
-    await bot.change_presence(game=(discord.Game(name='{}help'.format(CommandPrefix))))
+    await bot.change_presence(game=(discord.Game(name='{}help'.format(CommandPrefix))))'''
 
 # Supprime le message pour ne laisser que la commande
-@bot.command(pass_context = True, hidden=True)
+@command.command(pass_context = True, hidden=True)
 @commands.check(is_owner)
 async def delcmd(ctx, *args):
     msg = ' '.join(args)
-    await bot.delete_message(ctx.message)
-    await bot.say(msg)
+    await self.bot.delete_message(ctx.message)
+    await self.bot.say(msg)
 
-@bot.command(pass_context = True, hidden=True)
+@command.command(pass_context = True, hidden=True)
 async def test(ctx, *args):
     embed = discord.Embed(description = "test", color = 0xF00000)
     author = ctx.message.author.name
     embed.set_author(name=author)
-    await bot.say(embed = embed)
+    await self.bot.say(embed = embed)
 
-bot.run(Token_Fricen)
+self.bot.run(Token_Fricen)
