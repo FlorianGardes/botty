@@ -33,9 +33,9 @@ except Exception as e:
             print(("Failed to load extension {}\n{}").format(extension, exc))
 
 # Fonctions utiles
-def is_owner(ctx):
+'''def is_owner(ctx):
     if ctx.message.author.id == Owner_Id:
         return True
-    return False
+    return False'''
 
 bot.run(Token_Fricen)
