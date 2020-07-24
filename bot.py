@@ -7,6 +7,7 @@ import re
 import requests
 import xlrd
 import cog
+import Cogs
 
 import discord
 from discord.utils import *
