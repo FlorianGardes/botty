@@ -11,7 +11,7 @@ def is_allow(ctx):
             return True
     return False
 
-class serveur:
+class serveur(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
