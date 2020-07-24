@@ -6,6 +6,7 @@ import math
 import re
 import requests
 import xlrd
+import cog
 
 import discord
 from discord.utils import *
