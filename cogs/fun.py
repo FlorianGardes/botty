@@ -8,7 +8,7 @@ from discord.ext import commands
 from options_fricen import *
 from discord.utils import *
 
-class fun:
+class fun(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
