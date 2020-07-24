@@ -25,9 +25,9 @@ from options_fricen import *
 # Here you can modify the bot's prefix and description and wether it sends help in direct messages or not.
 bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
 
-cogs_list = [cogs.travian,
-             cogs.serveur,
-             cogs.fun]
+cogs_list = [cogs.Travian,
+             cogs.Serveur,
+             cogs.Fun]
 
 for cog in cogs_list:
         bot.add_cog(cog(bot))
