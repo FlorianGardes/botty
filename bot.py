@@ -7,7 +7,9 @@ from discord.utils import *
 from discord.ext import commands
 
 from options_fricen import *
-import extensions
+from extensions import travian
+from extensions import fun
+from extensions import serveur
 
 bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
 
