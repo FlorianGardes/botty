@@ -22,19 +22,7 @@ class serveur(commands.Cog):
     async def delcmd(ctx, *args):
     msg = ' '.join(args)
         await self.bot.delete_message(ctx.message)
-        await self.bot.say(msg) ''' 
-    
-    # Permet de vérifier le bon lancement du bot
-    async def on_ready(self):
-        print('--------------------------------')
-        print('Bot connecté')
-        print('Username : {}'.format(self.bot.user.name))
-        print('ID : {}'.format(self.bot.user.id))
-        print('discord.py v{}'.format(discord.__version__))
-        print('Nombre de serveur infectés:', str(len(self.bot.servers)))
-        print('Nombre de personnes visibles:',len(set(self.bot.get_all_members())))
-        print('--------------------------------')
-        #await self.bot.change_presence(game=(discord.Game(name='{}help'.format(CommandPrefix))))
+        await self.bot.say(msg) '''
         
     # Message de bienvenue
     async def on_member_join(self, member):
