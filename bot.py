@@ -6,8 +6,6 @@ import math
 import re
 import requests
 import xlrd
-import cog
-import Cogs
 
 import discord
 from discord.utils import *
@@ -39,33 +37,5 @@ def is_owner(ctx):
     if ctx.message.author.id == Owner_Id:
         return True
     return False
-
-# Permet de vérifier le bon lancement du bot
-'''@bot.event
-async def on_ready():
-    print('--------------------------------')
-    print('Bot connecté')
-    print('Username : {}'.format(bot.user.name))
-    print('ID : {}'.format(bot.user.id))
-    print('discord.py v{}'.format(discord.__version__))
-    print('Nombre de serveur infectés:', str(len(bot.servers)))
-    print('Nombre de personnes visibles:',len(set(bot.get_all_members())))
-    print('--------------------------------')
-    await bot.change_presence(game=(discord.Game(name='{}help'.format(CommandPrefix))))'''
-
-# Supprime le message pour ne laisser que la commande
-@command.command(pass_context = True, hidden=True)
-@commands.check(is_owner)
-async def delcmd(ctx, *args):
-    msg = ' '.join(args)
-    await bot.delete_message(ctx.message)
-    await bot.say(msg)
-
-@command.command(pass_context = True, hidden=True)
-async def test(ctx, *args):
-    embed = discord.Embed(description = "test", color = 0xF00000)
-    author = ctx.message.author.name
-    embed.set_author(name=author)
-    await bot.say(embed = embed)
 
 bot.run(Token_Fricen)
