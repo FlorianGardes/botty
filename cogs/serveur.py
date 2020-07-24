@@ -16,6 +16,26 @@ class serveur:
     def __init__(self, bot):
         self.bot = bot
 
+    # Supprime le message pour ne laisser que la commande
+    '''@command.command(pass_context = True, hidden=True)
+    @commands.check(is_owner)
+    async def delcmd(ctx, *args):
+    msg = ' '.join(args)
+        await self.bot.delete_message(ctx.message)
+        await self.bot.say(msg) ''' 
+    
+    # Permet de vérifier le bon lancement du bot
+    async def on_ready(self):
+        print('--------------------------------')
+        print('Bot connecté')
+        print('Username : {}'.format(self.bot.user.name))
+        print('ID : {}'.format(self.bot.user.id))
+        print('discord.py v{}'.format(discord.__version__))
+        print('Nombre de serveur infectés:', str(len(self.bot.servers)))
+        print('Nombre de personnes visibles:',len(set(self.bot.get_all_members())))
+        print('--------------------------------')
+        #await self.bot.change_presence(game=(discord.Game(name='{}help'.format(CommandPrefix))))
+        
     # Message de bienvenue
     async def on_member_join(self, member):
         channel = get(member.server.channels, name='nouveau-venu')
@@ -80,10 +100,10 @@ class serveur:
         role_member = [roles.name.lower() for roles in ctx.message.author.roles]
         if (msg not in role_serveur):
             if(msg not in role_member):
-                role = await bot.create_role(auteur.server, name=msg)
-                await bot.say('%s has been added by %s'%(msg,auteur) )
-            await bot.say("You have already this role")
-        await bot.say("Role has not been created")
+                role = await self.bot.create_role(auteur.server, name=msg)
+                await selfbot.say('%s has been added by %s'%(msg,auteur) )
+            await self.bot.say("You have already this role")
+        await self.bot.say("Role has not been created")
 
 
     @commands.command(pass_context = True, hidden=True)
