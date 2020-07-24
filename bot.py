@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import os
 import sys
+import requests
+import datetime
 
 import discord
 from discord.utils import *
