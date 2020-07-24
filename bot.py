@@ -7,7 +7,7 @@ import math
 import re
 import requests
 import xlrd
-import cogs
+import extensions
 
 import discord
 from discord.utils import *
