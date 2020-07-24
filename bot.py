@@ -24,12 +24,12 @@ from os import environ
 from options_fricen import *
 
 # Here you can modify the bot's prefix and description and wether it sends help in direct messages or not.
-self.bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
+bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
 
 try:
-    self.bot.load_extension("Cog.travian")
-    self.bot.load_extension("Cog.serveur")
-    self.bot.load_extension("Cog.fun")
+    bot.load_extension("cogs.travian")
+    bot.load_extension("cogs.serveur")
+    bot.load_extension("cogs.fun")
 except Exception as e:
             exc = '{}: {}'.format(type(e).__name__, e)
             print(("Failed to load extension {}\n{}").format(extension, exc))
@@ -58,14 +58,14 @@ async def on_ready():
 @commands.check(is_owner)
 async def delcmd(ctx, *args):
     msg = ' '.join(args)
-    await self.bot.delete_message(ctx.message)
-    await self.bot.say(msg)
+    await bot.delete_message(ctx.message)
+    await bot.say(msg)
 
 @command.command(pass_context = True, hidden=True)
 async def test(ctx, *args):
     embed = discord.Embed(description = "test", color = 0xF00000)
     author = ctx.message.author.name
     embed.set_author(name=author)
-    await self.bot.say(embed = embed)
+    await bot.say(embed = embed)
 
-self.bot.run(Token_Fricen)
+bot.run(Token_Fricen)
