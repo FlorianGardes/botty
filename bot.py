@@ -25,9 +25,9 @@ from options_fricen import *
 bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
 
 try:
-    bot.load_extension("cogs.travian")
-    bot.load_extension("cogs.serveur")
-    bot.load_extension("cogs.fun")
+    bot.load_extension("Cog.travian")
+    bot.load_extension("Cog.serveur")
+    bot.load_extension("Cog.fun")
 except Exception as e:
             exc = '{}: {}'.format(type(e).__name__, e)
             print(("Failed to load extension {}\n{}").format(extension, exc))
