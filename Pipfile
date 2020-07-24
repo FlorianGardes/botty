@@ -19,6 +19,7 @@ pynacl = "*"
 pytz = "*"
 beautifulsoup4 = "==4.6.0"
 xlrd = "*"
+Cogs = "==0.4.4"
 
 [requires]
 python_version = "3.6"
