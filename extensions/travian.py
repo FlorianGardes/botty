@@ -38,21 +38,21 @@ class travian(commands.Cog):
                     if (role_name.lower()) not in role:
                         color = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
                         color = int(color, 16)
-                        role = await self.bot.create_role(auteur.server, name=role_name, colour=discord.Colour(color))
-                        await self.bot.add_roles(auteur, role)
+                        role = await ctx.create_role(auteur.server, name=role_name, colour=discord.Colour(color))
+                        await ctx.add_roles(auteur, role)
                         pseudo = prefix + ' (' + pseudo +')'
-                        await self.bot.change_nickname(auteur, pseudo)
+                        await ctx.change_nickname(auteur, pseudo)
                         embed = discord.Embed(description = "**%s** has been created and added to **%s**"%(role_name, prefix), color = 0xF00000)
-                        await self.bot.say(embed = embed)
+                        await ctx.send(embed = embed)
                         return
                     role = get(ctx.message.server.roles, name=role_name)
-                    await self.bot.add_roles(auteur, role)
+                    await ctx.add_roles(auteur, role)
                     pseudo = prefix + ' (' + pseudo +')'
-                    await self.bot.change_nickname(auteur, pseudo)
+                    await ctx.change_nickname(auteur, pseudo)
                     embed = discord.Embed(description = "**%s** has been assigned and added to **%s**"%(role, prefix), color = 0xF00000)
-                    await self.bot.say(embed = embed)
+                    await ctx.send(embed = embed)
                     return
-        await self.bot.say("Player doesn't exist, try again")
+        await ctx.send("Player doesn't exist, try again")
 
     @commands.command(pass_context = True, hidden=True)
     async def mm(self, ctx,*args):
@@ -74,7 +74,7 @@ class travian(commands.Cog):
             embed.add_field(name="Command :" , value=msg)
             embed.set_footer(text="group.europe.travian.com")
             embed.set_author(name=prefix)
-            await self.bot.send_message(channel_test,embed=embed)
+            await ctx.send_message(channel_test,embed=embed)
             return
         elif(args[0] =='def'):
             if(args[5]=='yes'):
@@ -93,8 +93,8 @@ class travian(commands.Cog):
                 embed_discord.add_field(name="Time set",value = args[3])
                 embed_discord.add_field(name="Troops needed ( in k )", value = args[4])
                 embed_discord.add_field(name = "Need to feed ?  ", value = "Yes")
-                await self.bot.send_message(channel,embed=embed)
-                await self.bot.send_message(channel_message_def,embed=embed_discord)
+                await ctx.send_message(channel,embed=embed)
+                await ctx.send_message(channel_message_def,embed=embed_discord)
 
             else :
                 msg = "Hello warriors and amazons,\n\nNeed def in [x|y]"+args[1]+"|"+args[2]+"[/x|y] for "+args[3]+", server time\nTroops needed : "+args[4]+"\nNo need to feed\n\nThank in advance,\n"+prefix
@@ -113,8 +113,8 @@ class travian(commands.Cog):
                 embed_discord.add_field(name="Time set",value = args[3])
                 embed_discord.add_field(name="Troops needed ( in k ) ", value = args[4])
                 embed_discord.add_field(name = "Need to feed ? ", value = "No")
-                await self.bot.send_message(channel,embed=embed)
-                await self.bot.send_message(channel_message_def,embed=embed_discord)
+                await ctx.send_message(channel,embed=embed)
+                await ctx.send_message(channel_message_def,embed=embed_discord)
         elif(args[0]=='push'):
             msg = "Hello everyone,\n\nPush in [x|y]"+args[1]+"|"+args[2]+"[/x|y] until "+args[3]+" , server time\n"+args[4]+"/player asked\n\nThank you in advance,\n"+prefix
             embed=discord.Embed(title="Push", color=0x1ea91e)
@@ -129,8 +129,8 @@ class travian(commands.Cog):
             embed_discord.add_field(name="Village to push", value = village)
             embed_discord.add_field(name="Hour",value = args[3])
             embed_discord.add_field(name="Quantity asked ( in k )", value = args[4])
-            await self.bot.send_message(channel,embed=embed)
-            await self.bot.send_message(channel_message_push,embed=embed_discord)
+            await ctx.send_message(channel,embed=embed)
+            await ctx.send_message(channel_message_push,embed=embed_discord)
 
         elif(args[0]=='crops'):
             msg = "Hello everyone,\n\nDon't forget to feed in [x|y]"+args[1]+"|"+args[2]+"[/x|y],\nThank you in advance\n"+prefix
@@ -144,8 +144,8 @@ class travian(commands.Cog):
             embed_discord.set_author(name=prefix)
             embed_discord.set_footer(text="Thank you")
             embed_discord.add_field(name="Village to feed", value = village)
-            await self.bot.send_message(channel,embed=embed)
-            await self.bot.send_message(channel_message_push,embed=embed_discord)
+            await ctx.send_message(channel,embed=embed)
+            await ctx.send_message(channel_message_push,embed=embed_discord)
 
         elif(args[0]=='statik'):
             msg = "Hello everyone, \n\n need" + args[3] + "by each def player in [x|y]"+args[1]+"|"+args[2]+"[/x|y],\nThank you in advance\n"+prefix
@@ -159,8 +159,8 @@ class travian(commands.Cog):
             embed_discord.set_author(name=prefix)
             embed_discord.set_footer(text="Thank you")
             embed_discord.add_field(name="Village to send", value = village)
-            await self.bot.send_message(channel,embed=embed)
-            await self.bot.send_message(channel_message_push,embed=embed_discord)
+            await ctx.send_message(channel,embed=embed)
+            await ctx.send_message(channel_message_push,embed=embed_discord)
 
 
     @commands.command(pass_context = True)
@@ -189,9 +189,9 @@ class travian(commands.Cog):
                 embed.add_field(name = colonne2[rownum], value = alliance)
                 embed.add_field(name ="Getter Player",value =getter_joueur)
                 embed.add_field(name = "Getter Alliance", value = getter_alliance)
-                await self.bot.say(embed=embed)
+                await ctx.send(embed=embed)
                 return
-        await self.bot.say("Player doesn't exist")
+        await ctx.send("Player doesn't exist")
 
     @commands.command()
     async def link(self):
@@ -202,7 +202,7 @@ class travian(commands.Cog):
         #embed.add_field(name ="TW WW",value ="http://www.travianwonder.com/uollasww")
         embed.add_field(name ="Kirilloid",value ="http://travian.kirilloid.ru/")
         embed.add_field(name = "Gdoc def", value ="Contact Fricen for acces : https://docs.google.com/spreadsheets/d/1DEgTNDbJmdO4rV5HYM2hDAShiCYlcZk_8C-VaLLGEJg/edit?ts=5ee0b9b5#gid=440791252")
-        await self.bot.say(embed=embed)
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
