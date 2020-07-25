@@ -28,9 +28,9 @@ class Botty(commands.Bot):
                     pm_help = True,
         )
                 
-        self.load_extension("extensions.fun")
-        self.load_extension("extensions.serveur")
-        self.load_extension("extensions.travian")
+        self.bot.load_extension("extensions.fun")
+        self.bot.load_extension("extensions.serveur")
+        self.bot.load_extension("extensions.travian")
         
         async def on_ready(self):
                 print('--------------------------------')
