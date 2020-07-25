@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-import os
-import sys
-import requests
-import datetime
+#import os
+#import sys
+#import requests
+#import datetime
 import discord
 
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 from options_fricen import *
 
@@ -14,6 +14,10 @@ from options_fricen import *
 #from extensions.serveur import serveur
 
 #bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
+
+def get_prefix(client, message):
+    prefixes = CommandPrefix
+    return commands.when_mentioned_or(*prefixes)(client, message)
 
 class Botty(commands.Bot):
         
