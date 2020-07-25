@@ -45,7 +45,6 @@ class Botty():
         
     @property
     def run(self):
-        try:
             super().run(config.Token_Fricen, reconnect=True)
 
     @property
