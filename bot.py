@@ -9,6 +9,10 @@ from discord.ext import commands
 
 from options_fricen import *
 
+from extensions.travian import travian
+from extensions.fun import fun
+from extensions.serveur import serveur
+
 bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
 
 bot.load_extension('extensions.travian')
