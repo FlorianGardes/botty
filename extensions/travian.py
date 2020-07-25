@@ -20,7 +20,7 @@ class travian(commands.Cog):
     #@is_channel(channel_inscription)
     async def sign(self, ctx, *args):
         """Allows to register
-        Use it with your own pseudo IG like %sign <pseudo>
+        Use it with your own pseudo IG like $sign <pseudo>
         """
         auteur = ctx.message.author
         prefix = ctx.message.author.name
@@ -57,11 +57,11 @@ class travian(commands.Cog):
     @commands.command(pass_context = True, hidden=True)
     async def mm(self, ctx,*args):
         """Mass message for [x|y]
-        Def msg: %mm def x y hour troops food
-        Example: %mm def 205 77 17:19:00 all yes
+        Def msg: $mm def x y hour troops food
+        Example: $mm def 205 77 17:19:00 all yes
         ======================================
-        Push msg: %mm push x y hour quantity
-        Example: %mm push 121 122 14:00:00 30"""
+        Push msg: $mm push x y hour quantity
+        Example: $mm push 121 122 14:00:00 30"""
         auteur = ctx.message.author
         prefix = ctx.message.author.name
         channel = ctx.guild.get_channel(message_alliance_ig)#message-alliance-ig
@@ -69,7 +69,7 @@ class travian(commands.Cog):
         channel_message_push = ctx.guild.get_channel(message_alliance)#message-alliance classique
         channel_message_def = ctx.guild.get_channel(message_def)#message-alliance def
         if(args[0] == 'help'):
-            msg ="For prepare mm (def, statik, push or feeding), you need args like :\n%mm def x y hour quantit_of_troops feed(yes or no)\n%mm statik x y quantity/player\n%mm push x y hour(hh:mm:ss) quantity/player\n%mm crops x y"
+            msg ="For prepare mm (def, statik, push or feeding), you need args like :\n$mm def x y hour quantit_of_troops feed(yes or no)\n$mm statik x y quantity/player\n$mm push x y hour(hh:mm:ss) quantity/player\n$mm crops x y"
             embed=discord.Embed(title="Help mass message", color=0x1ea91e)
             embed.add_field(name="Command :" , value=msg)
             embed.set_footer(text="group.europe.travian.com")
@@ -166,7 +166,7 @@ class travian(commands.Cog):
     @commands.command(pass_context = True)
     async def info(self, ctx ,*args):
         """Info player
-        Use like %info <pseudo>
+        Use like $info <pseudo>
         """
         auteur = ctx.message.author
         prefix = ctx.message.author.name
