@@ -12,23 +12,6 @@ class serveur(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    # Supprime le message pour ne laisser que la commande
-    '''@command.command(pass_context = True, hidden=True)
-    @commands.check(is_owner)
-    async def delcmd(ctx, *args):
-    msg = ' '.join(args)
-        await self.bot.delete_message(ctx.message)
-        await self.bot.say(msg) '''
-        
-    # Message de bienvenue
-    async def on_member_join(self, ctx, member):
-        channel = get(member.server.channels, name='nouveau-venu')
-        await ctx.send_message(channel,'{0.name} à rejoins le server !'.format(member))
-        embed=discord.Embed(title="Welcome", color=0x7f07b0)
-        embed.add_field(name="G&V server", value = "First, go on #sign-in and type `!sign <pseudo>` with your IG pseudos\nGo in #command for more details on the commands available")
-        await ctx.send_message(member, embed=embed)
-        #await self.bot.send_message(member,'Bienvenue sur le serveur !\n!help pour avoir les commandes disponibles'.format(member))
-
     @commands.command(pass_context=True, aliases=['servinfo', 'infoserv', 'infoserver'])
     async def serverinfo(self, ctx):
         """Give some information about this server discord"""
