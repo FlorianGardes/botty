@@ -29,16 +29,24 @@ class Botty():
     def __init__(self):
         super().__init__(command_prefix=CommandPrefix, description=Description, pm_help = True)
         
+        self.client_id = config.client_id
+        self.session = aiohttp.ClientSession(loop=self.loop)
+        
         for extension in initial_extensions:
                 try:
                         self.load_extension(extension)
                 except Exception as e:
                         print(f'Failed to load extension {extension}.', file=sys.stderr)
                         traceback.print_exc()
+                        
+    async def close(self):
+        await super().close()
+        await self.session.close()
+        
     def run(self):
         try:
             super().run(config.Token_Fricen, reconnect=True)
 
-@property
-def config(self):
+    @property
+    def config(self):
         return __import__('config')
