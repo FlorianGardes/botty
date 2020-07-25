@@ -16,9 +16,9 @@ from extensions import serveur
 
 bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
 
-cogs_list = [extensions.travian,
-             extensions.serveur,
-             extensions.fun]
+cogs_list = [extensions.Travian,
+             extensions.Serveur,
+             extensions.Fun]
 
 # Permet de vérifier le bon lancement du bot
 @bot.event
