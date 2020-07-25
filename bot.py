@@ -4,48 +4,43 @@ import sys
 import requests
 import datetime
 import discord
-import logging
-import aiohttp
 
 from discord.ext import commands
 
 from options_fricen import *
 
-from extensions.travian import travian
-from extensions.fun import fun
-from extensions.serveur import serveur
+#from extensions.travian import travian
+#from extensions.fun import fun
+#from extensions.serveur import serveur
 
 #bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
 
-log = logging.getLogger(__name__)
-
-initial_extensions = (
-        'extensions.travian',
-        'extensions.fun',
-        'extensions.serveur',
-)
-
-class Botty():
-    def __init__(self):
-        super().__init__(command_prefix=CommandPrefix, description=Description, pm_help = True)
+class Botty(commands.Bot):
         
-        self.client_id = config.client_id
-        self.session = aiohttp.ClientSession(loop=self.loop)
+        def __init__(self):
+                super().__init__(
+                    command_prefix=CommandPrefix,
+                    description=Description,
+                    pm_help = True,
+        )
+                
+        self.load_extension("extensions.fun")
+        self.load_extension("extensions.serveur")
+        self.load_extension("extensions.travian")
         
-        for extension in initial_extensions:
-                try:
-                        self.load_extension(extension)
-                except Exception as e:
-                        print(f'Failed to load extension {extension}.', file=sys.stderr)
-                        traceback.print_exc()
-                        
-    async def close(self):
-        await super().close()
-        await self.session.close()
+        async def on_ready(self):
+                print('--------------------------------')
+                print('Bot connecté')
+                print('Username : {}'.format(self.bot.user.name))
+                print('ID : {}'.format(self.bot.user.id))
+                print('discord.py v{}'.format(discord.__version__))
+                print('Nombre de serveur infectés:', str(len(self.bot.servers)))
+                print('Nombre de personnes visibles:',len(set(self.bot.get_all_members())))
+                print('--------------------------------')
+                await self.bot.change_presence(game=(discord.Game(name='{}help'.format(CommandPrefix))))
         
-    def run(self):
-            super().run(config.Token_Fricen, reconnect=True)
-
-    @property
-    def config(self):
-        return __import__('config')
+        def run(self):
+                super().run(self.config[Token_Fricen])
+                
+bot = Botty()
+bot.run()
