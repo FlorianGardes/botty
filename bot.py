@@ -15,7 +15,7 @@ from extensions.travian import travian
 from extensions.fun import fun
 from extensions.serveur import serveur
 
-bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
+#bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
 
 log = logging.getLogger(__name__)
 
@@ -27,19 +27,18 @@ initial_extensions = (
 
 class Botty():
     def __init__(self):
-        print('--------------------------------')
-        print('Bot connecté')
-        print('Username : {}'.format(self.bot.user.name))
-        print('ID : {}'.format(self.bot.user.id))
-        print('discord.py v{}'.format(discord.__version__))
-        print('Nombre de serveur infectés:', str(len(self.bot.servers)))
-        print('Nombre de personnes visibles:',len(set(self.bot.get_all_members())))
-        print('--------------------------------')
+        super().__init__(command_prefix=CommandPrefix, description=Description, pm_help = True)
+        
         for extension in initial_extensions:
                 try:
                         self.load_extension(extension)
                 except Exception as e:
                         print(f'Failed to load extension {extension}.', file=sys.stderr)
                         traceback.print_exc()
+    def run(self):
+        try:
+            super().run(config.Token_Fricen, reconnect=True)
 
-bot.run(Token_Fricen)
+@property
+def config(self):
+        return __import__('config')
