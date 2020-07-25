@@ -31,10 +31,10 @@ async def on_ready():
         print('Nombre de serveur infectés:', str(len(self.bot.servers)))
         print('Nombre de personnes visibles:',len(set(self.bot.get_all_members())))
         print('--------------------------------')
-        
+
         for cog in cogs_list:
                 bot.add_cog(cog(bot))
-                
+
         await bot.change_presence(game=(discord.Game(name='{}help'.format(CommandPrefix))))
 
 bot.run(Token_Fricen)
