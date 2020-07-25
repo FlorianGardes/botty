@@ -43,7 +43,6 @@ class Botty():
         await super().close()
         await self.session.close()
         
-    @property
     def run(self):
             super().run(config.Token_Fricen, reconnect=True)
 
