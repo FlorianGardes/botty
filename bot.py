@@ -6,7 +6,6 @@ import datetime
 import discord
 import logging
 import aiohttp
-import asyncpg
 
 from discord.ext import commands
 
