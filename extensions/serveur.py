@@ -134,3 +134,6 @@ class serveur(commands.Cog):
         embed = discord.Embed(description = "**%s** message deleted by **%s**"%(lignes, ctx.message.author), color = 0xF00000)
         embed.set_footer(text="Clear")
         await self.bot.say(embed = embed)
+
+def setup(bot):
+        bot.add_cog(serveur(bot))

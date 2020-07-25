@@ -24,3 +24,6 @@ class fun(commands.Cog):
     @commands.command()
     async def time(self, *args):
     	await self.bot.say(':timer: ' + strftime('We are the %d-%m-%Y and it is %H:%M:%S'))
+
+def setup(bot):
+        bot.add_cog(fun(bot))

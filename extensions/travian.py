@@ -203,3 +203,7 @@ class travian(commands.Cog):
         embed.add_field(name ="Kirilloid",value ="http://travian.kirilloid.ru/")
         embed.add_field(name = "Gdoc def", value ="Contact Fricen for acces : https://docs.google.com/spreadsheets/d/1DEgTNDbJmdO4rV5HYM2hDAShiCYlcZk_8C-VaLLGEJg/edit?ts=5ee0b9b5#gid=440791252")
         await self.bot.say(embed=embed)
+
+
+def setup(bot):
+        bot.add_cog(travian(bot))
