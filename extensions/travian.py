@@ -38,7 +38,7 @@ class travian(commands.Cog):
                     if (role_name.lower()) not in role:
                         color = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
                         color = int(color, 16)
-                        role = await ctx.create_role(name=role_name, colour=discord.Colour(color))
+                        role = await ctx.guild.create_role(name=role_name, colour=discord.Colour(color))
                         await ctx.author.add_roles(role)
                         pseudo = prefix + ' (' + pseudo +')'
                         await ctx.author.edit(nick=pseudo)
