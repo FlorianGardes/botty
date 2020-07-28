@@ -18,7 +18,7 @@ class travian(commands.Cog):
 
     @commands.command(pass_context = True)
     #@is_channel(channel_inscription)
-    def sign(self, ctx, *args):
+    async def sign(self, ctx, *args):
         """Allows to register
         Use it with your own pseudo IG like $sign <pseudo>
         """
@@ -58,7 +58,7 @@ class travian(commands.Cog):
     async def rename(self, ctx, *args):
         pseudo_IG = args[1]
         pseudo_discord = args[0]
-        return sign(self, pseudo_discord, pseudo_IG)
+        sign(self, pseudo_discord, pseudo_IG)
 
 
     @commands.command(pass_context = True, hidden=True)
