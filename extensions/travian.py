@@ -54,6 +54,13 @@ class travian(commands.Cog):
                     return
         await ctx.send("Player doesn't exist, try again")
 
+    @commands.command(pass_context = True, hidden = True)
+    async def rename(self, ctx, *args):
+        pseudo_IG = args[1]
+        pseudo_discord = args[0]
+        return sign(self, pseudo_discord, pseudo_IG)
+
+
     @commands.command(pass_context = True, hidden=True)
     async def mm(self, ctx,*args):
         """Mass message for [x|y]
