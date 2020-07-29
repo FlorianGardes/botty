@@ -11,13 +11,55 @@ def is_channel(channel_id):
         return ctx.message.channel.id == channel_id
     return commands.check(predicate)
 
+async def is_allow(ctx):
+    for allowed in Allow_Id:
+        if ctx.author.id == allowed:
+            return True
+    return False
+
+async def is_owner(ctx):
+        return ctx.author.id == Owner_Id
+
+async def sign_manual(self, entire_pseudo_bot, pseudo_discord, pseudo_ig, ctx):
+    auteur = entire_pseudo_bot
+    prefix = entire_pseudo_bot.name
+    msg = pseudo_ig
+    wb = xlrd.open_workbook('data/Map_Complet.xls')
+    sh = wb.sheet_by_name(u'Map_Complet')
+    colonne1 = sh.col_values(2)
+    colonne2 = sh.col_values(4)
+    colonne3 = sh.col_values(0)
+    for rownum in range(sh.nrows):
+        if(colonne1[rownum]==msg):
+            role_name = colonne2[rownum]
+            pseudo = colonne1[rownum]
+            role = [roles.name.lower() for roles in ctx.message.guild.roles]
+            if (role_name.lower()) not in role:
+                color = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
+                color = int(color, 16)
+                role = await ctx.guild.create_role(name=role_name, colour=discord.Colour(color))
+                await auteur.add_roles(role)
+                pseudo = prefix + ' (' + pseudo +')'
+                await auteur.edit(nick=pseudo)
+                embed = discord.Embed(description = "**%s** has been created and added to **%s**"%(role_name, prefix), color = 0xF00000)
+                await ctx.send(embed = embed)
+                return
+            role = get(ctx.message.guild.roles, name=role_name)
+            await auteur.add_roles(role)
+            pseudo = prefix + ' (' + pseudo +')'
+            await auteur.edit(nick=pseudo)
+            embed = discord.Embed(description = "**%s** has been assigned and added to **%s**"%(role, prefix), color = 0xF00000)
+            await ctx.send(embed = embed)
+            return
+    await ctx.send("Player doesn't exist, try again")
+
 class travian(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(pass_context = True)
-    #@is_channel(channel_inscription)
+    @is_channel(channel_inscription)
     async def sign(self, ctx, *args):
         """Allows to register
         Use it with your own pseudo IG like $sign <pseudo>
@@ -53,13 +95,30 @@ class travian(commands.Cog):
                     await ctx.send(embed = embed)
                     return
         await ctx.send("Player doesn't exist, try again")
+              
 
-    @commands.command(pass_context = True, hidden = True)
-    async def rename(self, ctx, *args):
-        pseudo_IG = args[1]
-        pseudo_discord = args[0]
-        sign(self, pseudo_discord, pseudo_IG)
-
+    @commands.command(pass_content = True, hidden=True)
+    #@commands.has_permissions(administrator=True)
+    @commands.check(is_allow)
+    async def signadmin(self, ctx, *args):
+        entire_pseudo = ' '.join(args)
+        pseudo_discord = entire_pseudo[:-5]
+        entire_pseudo = int(entire_pseudo)
+        entire_pseudo_bot = ctx.guild.get_member(entire_pseudo)
+        prefix = entire_pseudo_bot.name
+        await ctx.message.delete()
+        embed = discord.Embed(title="%s"%(entire_pseudo), color=0xF00000)
+        embed.add_field(name = "Pseudo discord: ",value =prefix)
+        embed.set_footer(text = "Please, enter pseudo IG")
+        await ctx.send(embed = embed)
+        def pred(m):
+                    return m.author == ctx.message.author and m.channel == ctx.message.channel
+        pseudo_ig = await self.bot.wait_for('message', check=pred)
+        pseudo_ig = pseudo_ig.content
+        #await ctx.message.delete()
+        embed = discord.Embed(description = "Search in Progress...", color = 0xF00000)
+        await ctx.send(embed = embed)
+        sign_in = await sign_manual(self, entire_pseudo_bot, pseudo_discord, pseudo_ig, ctx)
 
     @commands.command(pass_context = True, hidden=True)
     async def mm(self, ctx,*args):
