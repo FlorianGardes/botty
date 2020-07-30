@@ -62,11 +62,14 @@ class travian(commands.Cog):
     @is_channel(channel_inscription)
     async def sign(self, ctx, *args):
         """Allows to register
-        Use it with your own pseudo IG like $sign <pseudo>
+        Use it with your own Travian nickname like $sign <Travian nickname>
         """
         auteur = ctx.message.author
         prefix = ctx.message.author.name
         msg = ' '.join(args)
+        if msg == '':
+            await ctx.send('Please enter your Travian nickname after `$sign`')
+            return
         wb = xlrd.open_workbook('data/Map_Complet.xls')
         sh = wb.sheet_by_name(u'Map_Complet')
         colonne1 = sh.col_values(2)
@@ -98,7 +101,6 @@ class travian(commands.Cog):
               
 
     @commands.command(pass_content = True, hidden=True)
-    #@commands.has_permissions(administrator=True)
     @commands.check(is_allow)
     async def signadmin(self, ctx, *args):
         entire_pseudo = ' '.join(args)
@@ -109,7 +111,7 @@ class travian(commands.Cog):
         await ctx.message.delete()
         embed = discord.Embed(title="%s"%(entire_pseudo), color=0xF00000)
         embed.add_field(name = "Pseudo discord: ",value =prefix)
-        embed.set_footer(text = "Please, enter pseudo IG")
+        embed.set_footer(text = "Please, enter Travian nickname")
         await ctx.send(embed = embed)
         def pred(m):
                     return m.author == ctx.message.author and m.channel == ctx.message.channel
@@ -232,7 +234,7 @@ class travian(commands.Cog):
     @commands.command(pass_context = True)
     async def info(self, ctx ,*args):
         """Info player
-        Use like $info <pseudo>
+        Use it like $info <Travian nickname>
         """
         auteur = ctx.message.author
         prefix = ctx.message.author.name
