@@ -14,10 +14,6 @@ from discord.ext import commands, tasks
 
 from options_fricen import *
 
-#from extensions.travian import travian
-#from extensions.fun import fun
-#from extensions.serveur import serveur
-
 bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
 
 
@@ -32,9 +28,19 @@ async def on_ready():
     print('Username : {}'.format(bot.user.name))
     print('ID : {}'.format(bot.user.id))
     print('discord.py v{}'.format(discord.__version__))
-    #print('Nombre de serveur infectés:', str(len(bot.servers)))
-    #print('Nombre de personnes visibles:',len(set(bot.get_all_members())))
     print('--------------------------------')
-    #await bot.change_presence(game=(discord.Game(name='{}help'.format(CommandPrefix))))
-      
+"""     
+@bot.event
+async def on_message(message):
+    if message.author == bot.user: #immunité au bot
+        return
+    if message.channel.id != channel_inscription:
+        return
+    message_content = message.content
+    sign_message = message_content[:5]
+    channel = message.channel
+    if sign_message != '$sign':
+        await message.delete()
+        await channel.send("**%s**"%(str(message.author)) +", use the `$sign` command please!")   
+"""   
 bot.run(Token_Fricen)
