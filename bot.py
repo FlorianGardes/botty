@@ -29,7 +29,7 @@ async def on_ready():
     print('ID : {}'.format(bot.user.id))
     print('discord.py v{}'.format(discord.__version__))
     print('--------------------------------')
-      
+"""     
 @bot.event
 async def on_message(message):
     if message.author == bot.user: #immunité au bot
@@ -42,5 +42,5 @@ async def on_message(message):
     if sign_message != '$sign':
         await message.delete()
         await channel.send("**%s**"%(str(message.author)) +", use the `$sign` command please!")   
-    
+"""   
 bot.run(Token_Fricen)
