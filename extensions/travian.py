@@ -134,6 +134,7 @@ class travian(commands.Cog):
         channel = ctx.guild.get_channel(message_alliance_ig)#message-alliance-ig
         channel_bot = ctx.guild.get_channel(hc_using_bot)
         channel_def = ctx.guild.get_channel(message_def)
+        channe_other = ctx.guild.get_channel(message_alliance)
         #Type of message
 
         #embed = ig et embed_discord = discord
@@ -161,6 +162,9 @@ class travian(commands.Cog):
             msg = msg.content
             embed.add_field(name ="Information", value = msg)
             await channel.send(embed = embed)
+            embed.add_field(name ="Information", value = msg)
+            await channe_other.send(embed = embed)
+
 
 
         else :
@@ -213,7 +217,7 @@ class travian(commands.Cog):
                 embed_discord.add_field(name="Village", value = village)
                 embed_discord.add_field(name="Time set",value = time)
                 embed_discord.add_field(name="Quantity needed", value = msg)
-                await channel.send(embed = embed_discord)
+                await channe_other.send(embed = embed_discord)
 
             
 
