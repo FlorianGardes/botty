@@ -132,7 +132,8 @@ class travian(commands.Cog):
         auteur = ctx.message.author
         prefix = ctx.message.author.name
         channel = ctx.guild.get_channel(message_alliance_ig)#message-alliance-ig
-        channel_bot = ctx.guild.get_channel(test_bot)
+        channel_bot = ctx.guild.get_channel(hc_using_bot)
+        channel_def = ctx.guild.get_channel(message_def)
         #Type of message
 
         #embed = ig et embed_discord = discord
@@ -159,9 +160,7 @@ class travian(commands.Cog):
             msg = await self.bot.wait_for('message', check = pred)
             msg = msg.content
             embed.add_field(name ="Information", value = msg)
-            await channel.send(embed = embed)
-            embed_discord.add_field(name ="Information", value = msg)
-            await channel_bot.send(embed = embed_discord)
+            await channel.send(embed = embed))
 
 
         else :
@@ -189,6 +188,16 @@ class travian(commands.Cog):
                 await ctx.send(embed = embed_bot_msg)
                 msg = await self.bot.wait_for('message', check = pred)
                 msg = msg.content
+
+                result = "Hello warriors and amazons,\n\nNeed "+type+" in [x|y]"+x+"|"+y+"[/x|y] for "+time+", server time\nTroops needed : "+msg+"\n\nThank in advance,\n"+prefix
+                embed.add_field(name ="Information", value = result)
+                await channel.send(embed = embed)
+                village = serveur_travian + "/position_details.php?x="+str(int(x))+"&y=" +str(int(y))
+                embed_discord.set_footer(text="Thank you")
+                embed_discord.add_field(name="Village", value = village)
+                embed_discord.add_field(name="Time set",value = time)
+                embed_discord.add_field(name="Quantity needed", value = msg)
+                await channel_def.send(embed = embed_discord)
             elif(type == 'Push'):
                 embed_bot_msg.add_field(name = "How many ressources by player ? ",value ="For example 2k or 2000 or 2 000")
                 embed_bot_msg.set_footer(text = "Give me the quantity :")
@@ -196,15 +205,17 @@ class travian(commands.Cog):
                 msg = await self.bot.wait_for('message', check = pred)
                 msg = msg.content
 
-            result = "Hello warriors and amazons,\n\nNeed "+type+" in [x|y]"+x+"|"+y+"[/x|y] for "+time+", server time\nTroops needed : "+msg+"\n\nThank in advance,\n"+prefix
-            embed.add_field(name ="Information", value = result)
-            await channel.send(embed = embed)
-            village = serveur_travian + "/position_details.php?x="+str(int(x))+"&y=" +str(int(y))
-            embed_discord.set_footer(text="Thank you")
-            embed_discord.add_field(name="Village", value = village)
-            embed_discord.add_field(name="Time set",value = time)
-            embed_discord.add_field(name="Quantity needed", value = msg)
-            await channel_bot.send(embed = embed_discord)
+                result = "Hello warriors and amazons,\n\nNeed "+type+" in [x|y]"+x+"|"+y+"[/x|y] for "+time+", server time\nTroops needed : "+msg+"\n\nThank in advance,\n"+prefix
+                embed.add_field(name ="Information", value = result)
+                await channel.send(embed = embed)
+                village = serveur_travian + "/position_details.php?x="+str(int(x))+"&y=" +str(int(y))
+                embed_discord.set_footer(text="Thank you")
+                embed_discord.add_field(name="Village", value = village)
+                embed_discord.add_field(name="Time set",value = time)
+                embed_discord.add_field(name="Quantity needed", value = msg)
+                await channel.send(embed = embed_discord)
+
+            
 
     @commands.command(pass_context = True, hidden=True)
     async def reports_add(self, ctx,*args):
