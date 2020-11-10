@@ -199,7 +199,7 @@ class travian(commands.Cog):
             result = "Hello warriors and amazons,\n\nNeed "+type+" in [x|y]"+x+"|"+y+"[/x|y] for "+time+", server time\nTroops needed : "+msg+"\n\nThank in advance,\n"+prefix
             embed.add_field(name ="Information", value = result)
             await channel.send(embed = embed)
-            village = "https://group.europe.travian.com/position_details.php?x=%i&y=%i" %(int(x),int(y))
+            village = serveur_travian + "/position_details.php?x="+str(int(x))+"&y=" +str(int(y))
             embed_discord.set_footer(text="Thank you")
             embed_discord.add_field(name="Village", value = village)
             embed_discord.add_field(name="Time set",value = time)
@@ -356,10 +356,10 @@ class travian(commands.Cog):
 
             if(colonne1[rownum]==msg):
                 embed = discord.Embed(title="Information", color=0xff8c00)
-                joueur = "https://group.europe.travian.com/spieler.php?uid=%d" %(int(colonne1_id[rownum]))
-                alliance = "https://group.europe.travian.com/allianz.php?aid=%d" %(int(colonne2_id[rownum]))
-                getter_joueur = "https://www.gettertools.com/group.europe.travian.com/20-Trooptool?getInfo=1&uid=%d" %(int(colonne1_id[rownum]))
-                getter_alliance = "https://www.gettertools.com/group.europe.travian.com/20-Trooptool?getInfo=1&aid=%d" %(int(colonne2_id[rownum]))
+                joueur = serveur_travian+"/spieler.php?uid=" +str(int(colonne1_id[rownum]))
+                alliance = serveur_travian"/allianz.php?aid=" +str(int(colonne2_id[rownum]))
+                getter_joueur = getter+"/20-Trooptool?getInfo=1&uid=" +str(int(colonne1_id[rownum]))
+                getter_alliance = getter+"/20-Trooptool?getInfo=1&aid=" +str(int(colonne2_id[rownum]))
                 embed.add_field(name =msg,value =joueur)
                 embed.add_field(name = colonne2[rownum], value = alliance)
                 embed.add_field(name ="Getter Player",value =getter_joueur)
@@ -372,11 +372,11 @@ class travian(commands.Cog):
     async def link(self, ctx):
         """Some usefull links"""
         embed = discord.Embed(title="Link", color=0xff8c00)
-        embed.add_field(name ="Server",value ="https://group.europe.travian.com")
-        embed.add_field(name ="Getter",value ="https://www.gettertools.com/group.europe.travian.com/")
+        embed.add_field(name ="Server",value =serveur_travian)
+        embed.add_field(name ="Getter",value =getter)
         #embed.add_field(name ="TW WW",value ="http://www.travianwonder.com/uollasww")
-        embed.add_field(name ="Kirilloid",value ="http://travian.kirilloid.ru/")
-        embed.add_field(name = "Gdoc def", value ="https://docs.google.com/spreadsheets/d/1DEgTNDbJmdO4rV5HYM2hDAShiCYlcZk_8C-VaLLGEJg/edit?ts=5ee0b9b5#gid=440791252")
+        embed.add_field(name ="Kirilloid",value =kiri)
+        embed.add_field(name = "Gdoc def", value =gdoc_def)
         await ctx.send(embed=embed)
 
 

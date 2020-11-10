@@ -16,6 +16,6 @@ message_alliance_ig = 546765589818114108
 
 '''lien IG'''
 serveur_travian = "https://final.travian.com"
-getter = "https://www.gettertools.com/final.travian.com/"
+getter = "https://www.gettertools.com/final.travian.com"
 kiri = "http://travian.kirilloid.ru/"
 gdoc_def = "https://docs.google.com/spreadsheets/d/1DEgTNDbJmdO4rV5HYM2hDAShiCYlcZk_8C-VaLLGEJg/edit?ts=5ee0b9b5#gid=440791252"
