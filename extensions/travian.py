@@ -160,7 +160,7 @@ class travian(commands.Cog):
             msg = await self.bot.wait_for('message', check = pred)
             msg = msg.content
             embed.add_field(name ="Information", value = msg)
-            await channel.send(embed = embed))
+            await channel.send(embed = embed)
 
 
         else :
