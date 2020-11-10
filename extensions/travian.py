@@ -357,7 +357,7 @@ class travian(commands.Cog):
             if(colonne1[rownum]==msg):
                 embed = discord.Embed(title="Information", color=0xff8c00)
                 joueur = serveur_travian+"/spieler.php?uid=" +str(int(colonne1_id[rownum]))
-                alliance = serveur_travian"/allianz.php?aid=" +str(int(colonne2_id[rownum]))
+                alliance = serveur_travian+"/allianz.php?aid=" +str(int(colonne2_id[rownum]))
                 getter_joueur = getter+"/20-Trooptool?getInfo=1&uid=" +str(int(colonne1_id[rownum]))
                 getter_alliance = getter+"/20-Trooptool?getInfo=1&aid=" +str(int(colonne2_id[rownum]))
                 embed.add_field(name =msg,value =joueur)
