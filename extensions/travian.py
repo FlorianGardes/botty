@@ -119,7 +119,6 @@ class travian(commands.Cog):
                     return m.author == ctx.message.author and m.channel == ctx.message.channel
         pseudo_ig = await self.bot.wait_for('message', check=pred)
         pseudo_ig = pseudo_ig.content
-        #await ctx.message.delete()
         embed = discord.Embed(description = "Search in Progress...", color = 0xF00000)
         await ctx.send(embed = embed)
         sign_in = await sign_manual(self, entire_pseudo_bot, pseudo_discord, pseudo_ig, ctx)
@@ -145,16 +144,6 @@ class travian(commands.Cog):
         embed_bot_y = discord.Embed(title="%s"%(name_bot), color=0xF00000)
         embed_bot_time = discord.Embed(title="%s"%(name_bot), color=0xF00000)
         embed_bot_msg = discord.Embed(title="%s"%(name_bot), color=0xF00000)
-
-
-        embed_discord.set_footer(text="Thank you")
-        embed.set_footer(text="Thank you")
-        embed_bot_type.set_footer(text = "Thank you")
-        embed_bot_x.set_footer(text = "Thank you")
-        embed_bot_y.set_footer(text = "Thank you")
-        embed_bot_time.set_footer(text = "Thank you")
-        embed_bot_msg.set_footer(text = "Thank you")
-
         embed_bot_type.add_field(name = "Asking def, push or something else ? ",value ="Write exactly Def, Push or Other")
         await ctx.send(embed = embed_bot_type)
 
@@ -219,8 +208,6 @@ class travian(commands.Cog):
 
     @commands.command(pass_context = True, hidden=True)
     async def reports_add(self, ctx,*args):
-        auteur = ctx.message.author
-        prefix = ctx.message.author.name
         name_bot = "Super-Fricen"
         #Embed du bot
         embed_bot_name = discord.Embed(title="%s"%(name_bot), color=0xF00000)
@@ -229,18 +216,6 @@ class travian(commands.Cog):
         embed_bot_report = discord.Embed(title="%s"%(name_bot), color=0xF00000)
         embed_bot_fin = discord.Embed(title="%s"%(name_bot), color=0xF00000)
         embed_bot_date = discord.Embed(title="%s"%(name_bot), color=0xF00000)
-
-        embed_bot_name.set_footer(text = "Thank you")
-
-        embed_bot_x.set_footer(text = "Thank you")
-
-        embed_bot_y.set_footer(text = "Thank you")
-
-        embed_bot_report.set_footer(text = "Thank you")
-
-        embed_bot_date.set_footer(text = "Thank you")
-
-        embed_bot_fin.set_footer(text = "Thank you")
         #Map_Complet
         Doc_data_name = xlrd.open_workbook('data/Map_Complet.xls')
         sheet_data_name = Doc_data_name.sheet_by_name(u'Map_Complet')
@@ -254,16 +229,17 @@ class travian(commands.Cog):
         Doc_report_write = xlwt.Workbook()
         sheet_report_write = Doc_report_write.add_sheet(u'Model')
 
-
+        await ctx.message.delete()
         embed_bot_name.add_field(name = "Name of ennemy ? ",value ="Exact name IG")
         await ctx.send(embed = embed_bot_name)
+        
 
         def pred(m):
                     return m.author == ctx.message.author and m.channel == ctx.message.channel
 
         name = await self.bot.wait_for('message', check = pred)
         name = name.content
-
+        
         for rownum in range(sheet_data_name.nrows):
             if(pseudo[rownum]==name):
                 pseudo_trouve = True
@@ -283,7 +259,7 @@ class travian(commands.Cog):
             await ctx.send(embed = embed_bot_report)
             link_report = await self.bot.wait_for('message', check = pred)
             link_report = link_report.content
-
+            
             embed_bot_date.add_field(name = "Date ",value ="29/10 for example")
             await ctx.send(embed = embed_bot_date)
             date = await self.bot.wait_for('message', check = pred)
@@ -318,8 +294,6 @@ class travian(commands.Cog):
 
     @commands.command(pass_context = True, hidden=True)
     async def reports_read(self, ctx,*args):
-        auteur = ctx.message.author
-        prefix = ctx.message.author.name
         name_bot = "Super-Fricen"
         #Embed du bot
         embed_bot_name = discord.Embed(title="%s"%(name_bot), color=0xF00000)
@@ -340,6 +314,7 @@ class travian(commands.Cog):
         link = sheet_report.col_values(3)
         date = sheet_report.col_values(4)
 
+        await ctx.message.delete()
 
         embed_bot_name.add_field(name = "Name of ennemy ? ",value ="Give me the exact pseudo")
         await ctx.send(embed = embed_bot_name)
@@ -348,17 +323,17 @@ class travian(commands.Cog):
                     return m.author == ctx.message.author and m.channel == ctx.message.channel
 
         name = await self.bot.wait_for('message', check = pred)
-        name = name.content
+        name = name.content 
+
 
         for rownum in range(sheet_data_name.nrows):
             if(pseudo[rownum]==name):
                 pseudo_trouve = True
-        msg = ''
         if(pseudo_trouve == True) :
             for player_sheet in range(sheet_report.nrows) :
                 if(player[player_sheet]==name) :
-                    embed_bot_fin.add_field(name = "List of report ",value =str(x[player_sheet]) +"/" + str(y[player_sheet]) + " report : " + link[player_sheet] + " date : " +date[player_sheet])
-
+                    embed_bot_fin.add_field(name = date[player_sheet],value =str(x[player_sheet]) +"/" + str(y[player_sheet]) + " report : " + link[player_sheet])
+            embed_bot_fin.set_author(name = name )
             await ctx.send(embed = embed_bot_fin)
         else :
             embed_bot_fin.add_field(name = "Wrong name ", value= "Be sure to put the exact name IG of the player")
@@ -370,8 +345,6 @@ class travian(commands.Cog):
         """Info player
         Use it like $info <Travian nickname>
         """
-        auteur = ctx.message.author
-        prefix = ctx.message.author.name
         msg = ' '.join(args)
         wb = xlrd.open_workbook('data/Map_Complet.xls')
         sh = wb.sheet_by_name(u'Map_Complet')
