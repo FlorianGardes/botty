@@ -1,7 +1,9 @@
 import discord
 import asyncio
 import xlrd
+import xlwt
 import random
+import datetime
 from discord.ext import commands
 from options_fricen import *
 from discord.utils import *
@@ -98,7 +100,7 @@ class travian(commands.Cog):
                     await ctx.send(embed = embed)
                     return
         await ctx.send("Player doesn't exist, try again")
-              
+
 
     @commands.command(pass_content = True, hidden=True)
     @commands.check(is_allow)
@@ -117,7 +119,6 @@ class travian(commands.Cog):
                     return m.author == ctx.message.author and m.channel == ctx.message.channel
         pseudo_ig = await self.bot.wait_for('message', check=pred)
         pseudo_ig = pseudo_ig.content
-        #await ctx.message.delete()
         embed = discord.Embed(description = "Search in Progress...", color = 0xF00000)
         await ctx.send(embed = embed)
         sign_in = await sign_manual(self, entire_pseudo_bot, pseudo_discord, pseudo_ig, ctx)
@@ -125,119 +126,225 @@ class travian(commands.Cog):
     @commands.command(pass_context = True, hidden=True)
     async def mm(self, ctx,*args):
         """Mass message for [x|y]
-        Def msg: $mm def x y hour troops food
-        Example: $mm def 205 77 17:19:00 all yes
-        ======================================
-        Push msg: $mm push x y hour quantity
-        Example: $mm push 121 122 14:00:00 30"""
+        Def msg: $mm
+        for the type : Def, push or Other
+        And follow the discussion with the bot"""
         auteur = ctx.message.author
         prefix = ctx.message.author.name
         channel = ctx.guild.get_channel(message_alliance_ig)#message-alliance-ig
-        channel_bot_leader = ctx.guild.get_channel(hc_using_bot)
-        channel_message_push = ctx.guild.get_channel(message_alliance)#message-alliance classique
-        channel_message_def = ctx.guild.get_channel(message_def)#message-alliance def
-        if(args[0] == 'help'):
-            msg ="For prepare mm (def, statik, push or feeding), you need args like :\n$mm def x y hour quantit_of_troops feed(yes or no)\n$mm statik x y quantity/player\n$mm push x y hour(hh:mm:ss) quantity/player\n$mm crops x y"
-            embed=discord.Embed(title="Help mass message", color=0x1ea91e)
-            embed.add_field(name="Command :" , value=msg)
-            embed.set_footer(text="group.europe.travian.com")
-            embed.set_author(name=prefix)
-            await channel_bot_leader.send(embed=embed)
-            return
-        elif(args[0] =='def'):
-            if(args[5]=='yes'):
-                msg ="Hello,\n\nNeed def for [x|y]"+args[1]+"|"+args[2]+"[/x|y] for "+args[3]+" , server time\nQuantity needed : "+args[4]+"\nDon't forget to feed\n\nThanks in advance,\n"+prefix
-                embed=discord.Embed(title="Asking def", color=0x1ea91e)
-                embed.set_author(name=prefix)
-                embed.set_footer(text="group.europe.travian.com")
-                embed.add_field(name="Message : ", value=msg)
+        channel_bot = ctx.guild.get_channel(test_bot)
+        #Type of message
+
+        #embed = ig et embed_discord = discord
+        name_bot = "Super-Fricen"
+        embed = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+        embed_discord = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+        embed_bot_type = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+        embed_bot_x = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+        embed_bot_y = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+        embed_bot_time = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+        embed_bot_msg = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+        embed_bot_type.add_field(name = "Asking def, push or something else ? ",value ="Write exactly Def, Push or Other")
+        await ctx.send(embed = embed_bot_type)
+
+        def pred(m):
+                    return m.author == ctx.message.author and m.channel == ctx.message.channel
+
+        type = await self.bot.wait_for('message', check = pred)
+        type = type.content
+
+        if(type == 'Other'):
+            embed_bot_msg.add_field(name = "What is you message you want to transmit ",value ="Write your message ")
+            await ctx.send(embed = embed_bot_msg)
+            msg = await self.bot.wait_for('message', check = pred)
+            msg = msg.content
+            embed.add_field(name ="Information", value = msg)
+            await channel.send(embed = embed)
+            embed_discord.add_field(name ="Information", value = msg)
+            await channel_bot.send(embed = embed_discord)
 
 
-                village = "https://group.europe.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
-                embed_discord=discord.Embed(title="Asking def wall", color=0x1ea91e)
-                embed_discord.set_author(name=prefix)
-                embed_discord.set_footer(text="Thank you")
-                embed_discord.add_field(name="Village to def", value = village)
-                embed_discord.add_field(name="Time set",value = args[3])
-                embed_discord.add_field(name="Troops needed ( in k )", value = args[4])
-                embed_discord.add_field(name = "Need to feed ?  ", value = "Yes")
-                await channel.send(embed=embed)
-                await channel_message_def.send(embed=embed_discord)
+        else :
+            embed_bot_x.add_field(name = "x coord ",value ="20 for example")
+            embed_bot_x.set_footer(text = "Give me x coord : ")
+            await ctx.send(embed = embed_bot_x)
+            x = await self.bot.wait_for('message', check = pred)
+            x = x.content
 
-            else :
-                msg = "Hello warriors and amazons,\n\nNeed def in [x|y]"+args[1]+"|"+args[2]+"[/x|y] for "+args[3]+", server time\nTroops needed : "+args[4]+"\nNo need to feed\n\nThank in advance,\n"+prefix
-                embed=discord.Embed(title="Asking def wall", color=0x1ea91e)
-                embed.set_author(name=prefix)
-                embed.set_footer(text="group.europe.travian.com")
-                embed.add_field(name="Message : ", value=msg)
+            embed_bot_y.add_field(name = "y coord ",value ="20 for example")
+            embed_bot_y.set_footer(text = "Give me y coord :")
+            await ctx.send(embed = embed_bot_y)
+            y = await self.bot.wait_for('message', check = pred)
+            y = y.content
 
+            embed_bot_time.add_field(name = "Time ",value ="For example 17h or 17:00:00")
+            embed_bot_time.set_footer(text = "Give me the time :")
+            await ctx.send(embed = embed_bot_time)
+            time = await self.bot.wait_for('message', check = pred)
+            time = time.content
 
+            if(type=='Def') :
+                embed_bot_msg.add_field(name = "How many def needed ? ",value ="For example 50k or 50000 or 50 000")
+                embed_bot_msg.set_footer(text = "Give me the number total of def needed :")
+                await ctx.send(embed = embed_bot_msg)
+                msg = await self.bot.wait_for('message', check = pred)
+                msg = msg.content
+            elif(type == 'Push'):
+                embed_bot_msg.add_field(name = "How many ressources by player ? ",value ="For example 2k or 2000 or 2 000")
+                embed_bot_msg.set_footer(text = "Give me the quantity :")
+                await ctx.send(embed = embed_bot_msg)
+                msg = await self.bot.wait_for('message', check = pred)
+                msg = msg.content
 
-                village = "https://group.europe.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
-                embed_discord=discord.Embed(title="Asking Def Wall", color=0x1ea91e)
-                embed_discord.set_author(name=prefix)
-                embed_discord.set_footer(text="Thank you")
-                embed_discord.add_field(name="Village to def", value = village)
-                embed_discord.add_field(name="Time set",value = args[3])
-                embed_discord.add_field(name="Troops needed ( in k ) ", value = args[4])
-                embed_discord.add_field(name = "Need to feed ? ", value = "No")
-                await channel.send(embed=embed)
-                await channel_message_def.send(embed=embed_discord)
-        elif(args[0]=='push'):
-            msg = "Hello everyone,\n\nPush in [x|y]"+args[1]+"|"+args[2]+"[/x|y] until "+args[3]+" , server time\n"+args[4]+"/player asked\n\nThank you in advance,\n"+prefix
-            embed=discord.Embed(title="Push", color=0x1ea91e)
-            embed.set_author(name=prefix)
-            embed.set_footer(text="group.europe.travian.com")
-            embed.add_field(name="Message : ", value=msg)
-
-            village = "https://group.europe.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
-            embed_discord=discord.Embed(title="Push", color=0x1ea91e)
-            embed_discord.set_author(name=prefix)
+            result = "Hello warriors and amazons,\n\nNeed "+type+" in [x|y]"+x+"|"+y+"[/x|y] for "+time+", server time\nTroops needed : "+msg+"\n\nThank in advance,\n"+prefix
+            embed.add_field(name ="Information", value = result)
+            await channel.send(embed = embed)
+            village = "https://group.europe.travian.com/position_details.php?x=%i&y=%i" %(int(x),int(y))
             embed_discord.set_footer(text="Thank you")
-            embed_discord.add_field(name="Village to push", value = village)
-            embed_discord.add_field(name="Hour",value = args[3])
-            embed_discord.add_field(name="Quantity asked ( in k )", value = args[4])
-            await channel.send(embed=embed)
-            await channel_message_push.send(embed=embed_discord)
+            embed_discord.add_field(name="Village", value = village)
+            embed_discord.add_field(name="Time set",value = time)
+            embed_discord.add_field(name="Quantity needed", value = msg)
+            await channel_bot.send(embed = embed_discord)
 
-        elif(args[0]=='crops'):
-            msg = "Hello everyone,\n\nDon't forget to feed in [x|y]"+args[1]+"|"+args[2]+"[/x|y],\nThank you in advance\n"+prefix
-            embed=discord.Embed(title="Crops", color=0x1ea91e)
-            embed.set_author(name=prefix)
-            embed.set_footer(text="group.europe.travian.com")
-            embed.add_field(name="Need crops : ", value=msg)
+    @commands.command(pass_context = True, hidden=True)
+    async def reports_add(self, ctx,*args):
+        name_bot = "Super-Fricen"
+        #Embed du bot
+        embed_bot_name = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+        embed_bot_x = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+        embed_bot_y = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+        embed_bot_report = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+        embed_bot_fin = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+        embed_bot_date = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+        #Map_Complet
+        Doc_data_name = xlrd.open_workbook('data/Map_Complet.xls')
+        sheet_data_name = Doc_data_name.sheet_by_name(u'Map_Complet')
+        pseudo = sheet_data_name.col_values(2)
+        pseudo_trouve = False
+        #Reports_read
+        Doc_report_read = xlrd.open_workbook('data/Reports.xls')
+        sheet_report = Doc_report_read.sheet_by_name(u'Model')
+        player = sheet_report.col_values(0)
+        #reports_write
+        Doc_report_write = xlwt.Workbook()
+        sheet_report_write = Doc_report_write.add_sheet(u'Model')
 
-            village = "https://group.europe.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
-            embed_discord=discord.Embed(title="Push", color=0x1ea91e)
-            embed_discord.set_author(name=prefix)
-            embed_discord.set_footer(text="Thank you")
-            embed_discord.add_field(name="Village to feed", value = village)
-            await channel.send(embed=embed)
-            await channel_message_push.send(embed=embed_discord)
+        await ctx.message.delete()
+        embed_bot_name.add_field(name = "Name of ennemy ? ",value ="Exact name IG")
+        await ctx.send(embed = embed_bot_name)
+        
 
-        elif(args[0]=='statik'):
-            msg = "Hello everyone, \n\n need " + args[3] + " by each def player in [x|y]"+args[1]+"|"+args[2]+"[/x|y],\nThank you in advance\n"+prefix
-            embed = discord.Embed(title="Statik", color=0x1ea91e)
-            embed.set_author(name=prefix)
-            embed.set_footer(text="group.europe.travian.com")
-            embed.add_field(name="Need def for statik : ", value=msg)
+        def pred(m):
+                    return m.author == ctx.message.author and m.channel == ctx.message.channel
 
-            village = "https://group.europe.travian.com/position_details.php?x=%i&y=%i" %(int(args[1]),int(args[2]))
-            embed_discord=discord.Embed(title="Statik", color=0x1ea91e)
-            embed_discord.set_author(name=prefix)
-            embed_discord.set_footer(text="Thank you")
-            embed_discord.add_field(name="Village to send", value = village)
-            await channel.send(embed=embed)
-            await channel_message_push.send(embed=embed_discord)
+        name = await self.bot.wait_for('message', check = pred)
+        name = name.content
+        
+        for rownum in range(sheet_data_name.nrows):
+            if(pseudo[rownum]==name):
+                pseudo_trouve = True
 
+        if(pseudo_trouve == True) :
+            embed_bot_x.add_field(name = "X ",value ="50 for example")
+            await ctx.send(embed = embed_bot_x)
+            coord_x = await self.bot.wait_for('message', check = pred)
+            coord_x = coord_x.content
+
+            embed_bot_y.add_field(name = "Y ",value ="50 for example")
+            await ctx.send(embed = embed_bot_y)
+            coord_y = await self.bot.wait_for('message', check = pred)
+            coord_y = coord_y.content
+
+            embed_bot_report.add_field(name = "Link of report ",value ="link shared on internet, like traviantools or lightshot")
+            await ctx.send(embed = embed_bot_report)
+            link_report = await self.bot.wait_for('message', check = pred)
+            link_report = link_report.content
+            
+            embed_bot_date.add_field(name = "Date ",value ="29/10 for example")
+            await ctx.send(embed = embed_bot_date)
+            date = await self.bot.wait_for('message', check = pred)
+            date = date.content
+
+            i = 0
+            for ligne_free in range(sheet_report.nrows) :
+                if(player[ligne_free] == '') :
+                    break
+                sheet_report_write.write(ligne_free, 0, sheet_report.cell_value(ligne_free,0))
+                sheet_report_write.write(ligne_free, 1, sheet_report.cell_value(ligne_free,1))
+                sheet_report_write.write(ligne_free, 2, sheet_report.cell_value(ligne_free,2))
+                sheet_report_write.write(ligne_free, 3, sheet_report.cell_value(ligne_free,3))
+                sheet_report_write.write(ligne_free, 4, sheet_report.cell_value(ligne_free,4))
+                i = i+1
+
+            ligne_free = i
+            sheet_report_write.write(ligne_free, 0, name)
+            sheet_report_write.write(ligne_free, 1, coord_x)
+            sheet_report_write.write(ligne_free, 2, coord_y)
+            sheet_report_write.write(ligne_free, 3, link_report)
+            sheet_report_write.write(ligne_free, 4, date)
+
+            embed_bot_fin.add_field(name = "We are done ",value ="Bye")
+            await ctx.send(embed = embed_bot_fin)
+
+            Doc_report_write.save('data/Reports.xls')
+        else :
+            embed_bot_fin.add_field(name = "Wrong name ", value= "Be sure to put the exact name IG of the player")
+            await ctx.send(embed = embed_bot_fin)
+        return
+
+    @commands.command(pass_context = True, hidden=True)
+    async def reports_read(self, ctx,*args):
+        name_bot = "Super-Fricen"
+        #Embed du bot
+        embed_bot_name = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+        embed_bot_fin = discord.Embed(title="%s"%(name_bot), color=0xF00000)
+
+        embed_bot_name.set_footer(text = "Thank you")
+        #Map_Complet
+        Doc_data_name = xlrd.open_workbook('data/Map_Complet.xls')
+        sheet_data_name = Doc_data_name.sheet_by_name(u'Map_Complet')
+        pseudo = sheet_data_name.col_values(2)
+        pseudo_trouve = False
+        #Reports_read
+        Doc_report_read = xlrd.open_workbook('data/Reports.xls')
+        sheet_report = Doc_report_read.sheet_by_name(u'Model')
+        player = sheet_report.col_values(0)
+        x = sheet_report.col_values(1)
+        y = sheet_report.col_values(2)
+        link = sheet_report.col_values(3)
+        date = sheet_report.col_values(4)
+
+        await ctx.message.delete()
+
+        embed_bot_name.add_field(name = "Name of ennemy ? ",value ="Give me the exact pseudo")
+        await ctx.send(embed = embed_bot_name)
+
+        def pred(m):
+                    return m.author == ctx.message.author and m.channel == ctx.message.channel
+
+        name = await self.bot.wait_for('message', check = pred)
+        name = name.content 
+
+
+        for rownum in range(sheet_data_name.nrows):
+            if(pseudo[rownum]==name):
+                pseudo_trouve = True
+        if(pseudo_trouve == True) :
+            for player_sheet in range(sheet_report.nrows) :
+                if(player[player_sheet]==name) :
+                    embed_bot_fin.add_field(name = date[player_sheet],value =str(x[player_sheet]) +"/" + str(y[player_sheet]) + " report : " + link[player_sheet])
+            embed_bot_fin.set_author(name = name )
+            await ctx.send(embed = embed_bot_fin)
+        else :
+            embed_bot_fin.add_field(name = "Wrong name ", value= "Be sure to put the exact name IG of the player")
+            await ctx.send(embed = embed_bot_fin)
+        return
 
     @commands.command(pass_context = True)
     async def info(self, ctx ,*args):
         """Info player
         Use it like $info <Travian nickname>
         """
-        auteur = ctx.message.author
-        prefix = ctx.message.author.name
         msg = ' '.join(args)
         wb = xlrd.open_workbook('data/Map_Complet.xls')
         sh = wb.sheet_by_name(u'Map_Complet')
