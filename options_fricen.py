@@ -15,7 +15,7 @@ message_def = 547109529045696522#info-def
 message_alliance_ig = 546765589818114108
 
 '''lien IG'''
-serveur_travian = "https://final.travian.com"
-getter = "https://www.gettertools.com/final.travian.com"
+serveur_travian = "https://finals.travian.com"
+getter = "https://www.gettertools.com/finals.travian.com"
 kiri = "http://travian.kirilloid.ru/"
 gdoc_def = "https://docs.google.com/spreadsheets/d/1vFU4MgBDEagOQXB4n5kBcLQEdAN4X2e_I58ZZubgBGU/edit#gid=440791252"
