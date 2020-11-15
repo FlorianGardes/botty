@@ -18,4 +18,4 @@ message_alliance_ig = 546765589818114108
 serveur_travian = "https://final.travian.com"
 getter = "https://www.gettertools.com/final.travian.com"
 kiri = "http://travian.kirilloid.ru/"
-gdoc_def = "https://docs.google.com/spreadsheets/d/1DEgTNDbJmdO4rV5HYM2hDAShiCYlcZk_8C-VaLLGEJg/edit?ts=5ee0b9b5#gid=440791252"
+gdoc_def = "https://docs.google.com/spreadsheets/d/1vFU4MgBDEagOQXB4n5kBcLQEdAN4X2e_I58ZZubgBGU/edit#gid=440791252"
