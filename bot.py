@@ -14,7 +14,10 @@ from discord.ext import commands, tasks
 
 from options_fricen import *
 
-bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True)
+intents = discord.Intents.default()
+intents.members = True
+
+bot = commands.Bot(description=Description, command_prefix=CommandPrefix, pm_help = True, intents=intents)
 bot.load_extension("extensions.fun")
 bot.load_extension("extensions.serveur")
 bot.load_extension("extensions.travian")
