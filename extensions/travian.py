@@ -162,8 +162,6 @@ class travian(commands.Cog):
             msg = msg.content
             embed.add_field(name ="Information", value = msg)
             await channel.send(embed = embed)
-            embed.add_field(name ="Information", value = msg)
-            await channe_other.send(embed = embed)
 
 
 
