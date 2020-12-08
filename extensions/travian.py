@@ -380,6 +380,13 @@ class travian(commands.Cog):
                 await ctx.send(embed=embed)
                 return
         await ctx.send("Player doesn't exist")
+        
+    @commands.command()
+    async def site(self, ctx):
+        """Link for G&V site"""
+        embed = discord.Embed(title="G&V Site", color=0xff8c00)
+        embed.add_field(name = "Site", value = "https://gvteam.net/")
+        await ctx.send(embed=embed)
 
     @commands.command()
     async def link(self, ctx):
