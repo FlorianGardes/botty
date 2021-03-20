@@ -385,7 +385,7 @@ class travian(commands.Cog):
     async def site(self, ctx):
         """Link for G&V site"""
         embed = discord.Embed(title="G&V Site", color=0xff8c00)
-        embed.add_field(name = "Site", value = "https://gvteam.net/")
+        embed.add_field(name = "Site", value = site_gv)
         await ctx.send(embed=embed)
 
     @commands.command()
@@ -398,6 +398,51 @@ class travian(commands.Cog):
         embed.add_field(name ="Kirilloid",value =kiri)
         embed.add_field(name = "Gdoc def", value =gdoc_def)
         await ctx.send(embed=embed)
+
+    @commands.command(pass_context= True, hidden=True)
+    @commands.has_permissions(administrator=True)
+    async def voice_join(self, ctx):
+        author = ctx.message.author
+        channel = author.voice_channel
+        await ctx.join_voice_channel(channel) 
+
+    @commands.command(pass_context= True, hidden=True)
+    @commands.has_permissions(administrator=True)
+    async def voice_leave(self, ctx):
+        channel = ctx.voice_channel
+        await ctx.leave_voice_channel(channel) 
+
+    @commands.command(pass_context= True, hidden=True)
+    async def radio_program(self, ctx):
+        auteur = ctx.message.author
+        prefix = ctx.message.author.name
+        spam = ctx.guild.get_channel(spam_room)#message-alliance-ig
+        name_bot = "Super-Fricen"
+        embed = discord.Embed(title=name_bot, color=0xF00000)
+        embed_final = discord.Embed(title=radio_link, color=0xF00000)
+        embed.add_field(name = "How many program today ?  ",value ="Number only")
+        embed_final.set_footer(text=datetime.date.today())
+        await ctx.send(embed = embed)
+
+        def pred(m):
+                    return m.author == ctx.message.author and m.channel == ctx.message.channel
+
+        type = await self.bot.wait_for('message', check = pred)
+        type = type.content
+        for i in range(type):
+            embed.add_field(name = "time slot ",value ="18-20 for example")
+            await ctx.send(embed = embed)
+            time = await self.bot.wait_for('message', check = pred)
+            time = time.content
+
+            embed.add_field(name = "DJ and style ",value ="The name and style if needed")
+            await ctx.send(embed = embed)
+            dj = await self.bot.wait_for('message', check = pred)
+            dj = dj.content
+        
+            embed_final.add_field(name=time, value = dj)
+
+        await ctx.send(embed=embed_final)        
 
 
 def setup(bot):
