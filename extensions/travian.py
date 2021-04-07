@@ -398,7 +398,7 @@ class travian(commands.Cog):
         embed.add_field(name ="Kirilloid",value =kiri)
         embed.add_field(name = "Gdoc def", value =gdoc_def)
         await ctx.send(embed=embed)
-
+"""
     @commands.command(pass_context= True, hidden=True)
     @commands.has_permissions(administrator=True)
     async def voice_join(self, ctx):
@@ -444,6 +444,6 @@ class travian(commands.Cog):
 
         await ctx.send(embed=embed_final)        
 
-
+"""
 def setup(bot):
         bot.add_cog(travian(bot))
