@@ -19,9 +19,9 @@ spam_room = 373586644873510912
 radio = 752174689366835421
 
 '''lien IG'''
-serveur_travian = "https://finals.travian.com"
-getter = "https://www.gettertools.com/finals.travian.com.12"
+serveur_travian = "https://ts30.x3.europe.travian.com/"
+getter = "https://www.gettertools.com/ts30.x3.europe.travian.com"
 kiri = "http://travian.kirilloid.ru/"
-gdoc_def = "https://docs.google.com/spreadsheets/d/1vFU4MgBDEagOQXB4n5kBcLQEdAN4X2e_I58ZZubgBGU/edit#gid=440791252"
+#gdoc_def = "https://docs.google.com/spreadsheets/d/1vFU4MgBDEagOQXB4n5kBcLQEdAN4X2e_I58ZZubgBGU/edit#gid=440791252"
 site_gv = "https://gvteam.net/"
 radio_link = "https://puccaradio.com/"
