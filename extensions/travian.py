@@ -398,7 +398,15 @@ class travian(commands.Cog):
         embed.add_field(name ="Kirilloid",value =kiri)
         embed.add_field(name = "Gdoc def", value =gdoc_def)
         await ctx.send(embed=embed)
-"""
+
+    @commands.command()
+    async def showallies(self, ctx):
+        embed = discord.Embed(title="Allies", color=0xff8c00)
+        embed.add_field(name ="Confederation",value =allies)
+        embed.add_field(name ="NAP",value =NAP)
+        await ctx.send(embed=embed)    
+        
+    """
     @commands.command(pass_context= True, hidden=True)
     @commands.has_permissions(administrator=True)
     async def voice_join(self, ctx):
