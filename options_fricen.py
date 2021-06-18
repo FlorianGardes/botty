@@ -20,7 +20,7 @@ radio = 752174689366835421
 
 '''lien IG'''
 serveur_travian = "https://ttq.x2.europe.travian.com"
-getter = "https://www.gettertools.com/ts30.x3.europe.travian.com"
+getter = "https://www.gettertools.com/ttq.x2.europe.travian.com"
 kiri = "http://travian.kirilloid.ru/"
 gdoc_def = "https://docs.google.com/spreadsheets/d/1dPkL7cQ_qEbK0cQtg3nXNtViboLu80kyfAzOl--DK8s/edit#gid=440791252"
 site_gv = "https://gvteam.net/"
