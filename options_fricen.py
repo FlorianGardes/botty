@@ -8,7 +8,7 @@ Allow_Id = [230365801457123328, 139869001365979136, 142596227207397377]
 #             Easyghost#6478        Fricen#2441         kwtis#3365
 '''writing channels'''
 channel_bienvenue = 547111805395140625
-channel_inscription = 824388956623863818
+channel_inscription = 895222104138608640
 hc_using_bot = 541923416832475136
 message_alliance = 373549029575098369#info-hc
 message_def = 547109529045696522#info-def
