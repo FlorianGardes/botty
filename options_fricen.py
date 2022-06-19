@@ -22,7 +22,7 @@ radio = 752174689366835421
 serveur_travian = "https://ttq.x2.asia.travian.com"
 getter = "https://www.gettertools.com/ttq.x2.asia.travian.com.2"
 kiri = "http://travian.kirilloid.ru/"
-gdoc_def = "https://docs.google.com/spreadsheets/d/1dPkL7cQ_qEbK0cQtg3nXNtViboLu80kyfAzOl--DK8s/edit#gid=440791252"
+gdoc_def = "https://docs.google.com/spreadsheets/d/1c6PjWZQJpDx32R8pkpZSVwT-MST1aGwd-oKFTJeBn3k/edit#gid=440791252"
 site_gv = "https://gvteam.net/"
 radio_link = "https://puccaradio.com/"
 allies = "A-秦王,A-神教,A-長城,A-爱你,A-汉武,A-故宫,A-天启,A-H™,A-OGC,A-CAT,SPQR™,SPQR,SPQER,A-RB,bAnd,A-Bo,COT™,BEST™,#BEST,BEST©,BestT,A-BND,NEW"
